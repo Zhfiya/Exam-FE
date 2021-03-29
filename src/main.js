@@ -3,11 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
-import {
-  Header,
-  Container,
-  Tooltip,
-} from "element-ui";
+import { Header, Container, Tooltip } from "element-ui";
 
 Vue.use(Header);
 Vue.use(Container);
