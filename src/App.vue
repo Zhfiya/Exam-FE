@@ -4,8 +4,10 @@
       <el-header class="header">
         <the-header></the-header>
       </el-header>
+      <el-main class="main">
+        <router-view />
+      </el-main>
     </el-container>
-    <router-view />
   </div>
 </template>
 
@@ -26,6 +28,13 @@ body,
   padding: 0;
   margin: 0;
   height: 100%;
+  min-width: 1000px;
+}
+.main {
+  overflow-y: scroll;
+}
+.main::-webkit-scrollbar {
+  display: none;
 }
 .header {
   padding: 0;
