@@ -1,10 +1,10 @@
 <template>
-  <div id="singleQuestion" class="flex-col">
+  <div id="judgeQuestion" class="flex-col">
     <el-card class="single_card">
-      <label class="question_type">选择题</label>
+      <label class="question_type">判断题</label>
       <div
         class="question_box flex-col"
-        v-for="item in this.singleQuestionList"
+        v-for="item in this.judgeQuestionList"
         :key="item.question"
       >
         <div class="single_row">
@@ -12,24 +12,10 @@
           <label class="timu">{{ item.question }}</label>
         </div>
         <div class="single_row op_row">
-          <el-radio v-model="answer" label="A" class="op_row">
-            A：{{ item.optionA }}
-          </el-radio>
+          <el-radio v-model="answer" label="A" class="op_row"> 正确 </el-radio>
         </div>
         <div class="single_row op_row">
-          <el-radio v-model="answer" label="B" class="op_row">
-            B：{{ item.optionB }}
-          </el-radio>
-        </div>
-        <div class="single_row op_row">
-          <el-radio v-model="answer" label="C" class="op_row">
-            C：{{ item.optionC }}
-          </el-radio>
-        </div>
-        <div class="single_row op_row">
-          <el-radio v-model="answer" label="D" class="op_row">
-            D：{{ item.optionD }}
-          </el-radio>
+          <el-radio v-model="answer" label="B" class="op_row"> 错误 </el-radio>
         </div>
       </div>
     </el-card>
@@ -38,14 +24,13 @@
 
 <script>
 export default {
-  name: "singleQues",
   props: {
     // 父组件传值，index：下标，SingleQ：单选题
     // index: {
     //     type: Number,
     //   required: true,
     // },
-    singleQuestionList: {
+    judgeQuestionList: {
       required: false,
     },
   },
@@ -64,7 +49,7 @@ export default {
   },
   created() {
     // this.Question();
-    console.log(this.SingleQ);
+    console.log(this.judgeQuestionList);
   },
   watch: {
     // answer(val) {
@@ -78,29 +63,13 @@ export default {
     //   this.$emit("func", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
     // },
   },
-  methods: {
-    Question() {
-      // 渲染获取到的题目和选项
-      //   this.timu = this.SingleQ.timu;
-      //   if (this.SingleQ.options) {
-      //     const oplist = this.SingleQ.options.split(";");
-      //     const a = oplist[0];
-      //     const b = oplist[1];
-      //     const c = oplist[2];
-      //     const d = oplist[3];
-      //     this.optionA = a;
-      //     this.optionB = b;
-      //     this.optionC = c;
-      //     this.optionD = d;
-      //   }
-    },
-  },
+  methods: {},
 };
 </script>
 
 <style lang="less" scoped>
 @import "../../../../style/common.less";
-#singleQuestion {
+#judgeQuestion {
   .single_card {
     width: 100%;
     height: 60%;

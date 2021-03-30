@@ -6,52 +6,56 @@
     <div class="box_main flex-row">
       <el-card class="menu_card">
         <div class="select_list" v-show="selectCount.length !== 0">
-          <label class="select_type">选择题</label>
+          <label class="select_type" @click="questionType = 'single'"
+            >选择题</label
+          >
           <div class="question_list">
             <div
               class="question_item"
               v-for="(item, index) in selectCount"
               :key="index"
-              @click="JumpTo(index + 1)"
             >
               {{ index + 1 }}
             </div>
           </div>
         </div>
         <div class="judge_list" v-show="judgeCount.length !== 0">
-          <label class="select_type">判断题</label>
+          <label class="select_type" @click="questionType = 'judge'"
+            >判断题</label
+          >
           <div class="question_list">
             <div
               class="question_item"
               v-for="(item, index) in judgeCount"
               :key="index"
-              @click="JumpTo(index + 1)"
             >
               {{ index + 1 }}
             </div>
           </div>
         </div>
         <div class="discussion_list" v-show="discussionCount.length !== 0">
-          <label class="select_type">问答题</label>
+          <label class="select_type" @click="questionType = 'discussion'"
+            >问答题</label
+          >
           <div class="question_list">
             <div
               class="question_item"
               v-for="(item, index) in discussionCount"
               :key="index"
-              @click="JumpTo(index + 1)"
             >
               {{ index + 1 }}
             </div>
           </div>
         </div>
         <div class="program_list" v-show="programCount.length !== 0">
-          <label class="select_type">编程题</label>
+          <label class="select_type" @click="questionType = 'program'"
+            >编程题</label
+          >
           <div class="question_list">
             <div
               class="question_item"
               v-for="(item, index) in programCount"
               :key="index"
-              @click="JumpTo(index + 1)"
             >
               {{ index + 1 }}
             </div>
@@ -59,7 +63,19 @@
         </div>
       </el-card>
       <div class="question_box">
-        <single-question :singleQuestionList="singleList"></single-question>
+        <single-question
+          :singleQuestionList="singleList"
+          v-if="questionType === 'single'"
+        ></single-question>
+        <judge-question
+          :judgeQuestionList="judgeList"
+          v-if="questionType === 'judge'"
+        ></judge-question>
+        <discussion-question
+          :discussionQuestionList="discussionList"
+          v-if="questionType === 'discussion'"
+        ></discussion-question>
+        <program-question v-if="questionType === 'program'"></program-question>
       </div>
       <!-- <div class="button_card">
           <button @click="SubmitExam()">交卷</button>
@@ -71,16 +87,16 @@
 <script>
 // import { mapState } from 'vuex';
 import SingleQuestion from "./Component/SingleQuestion.vue";
-// import judgeQues from '@/components/student/JudgeQues.vue';
-// import discussionQues from '@/components/student/DiscussionQues.vue';
-// import programQues from '@/components/student/ProgramQues.vue';
+import JudgeQuestion from "./Component/JudgeQuestion.vue";
+import DiscussionQuestion from "./Component/DiscussionQuestion";
+import ProgramQuestion from "./Component/ProgramQuestion.vue";
 
 export default {
   components: {
     SingleQuestion,
-    // judgeQues,
-    // discussionQues,
-    // programQues,
+    JudgeQuestion,
+    DiscussionQuestion,
+    ProgramQuestion,
   },
   computed: {
     // ...mapState(['uid']),
@@ -88,6 +104,7 @@ export default {
   },
   data() {
     return {
+      questionType: "single",
       selectCount: [
         { index: 1 },
         { index: 2 },
@@ -137,16 +154,24 @@ export default {
         { index: 342 },
       ],
       singleList: [
-          {
-            optionA: "a",
-            optionB: "ss",
-            optionC: "dv",
-            optionD: "cd",
-            question: "aaaaa",
-          },
+        {
+          optionA: "a",
+          optionB: "ss",
+          optionC: "dv",
+          optionD: "cd",
+          question: "aaaaa",
+        },
       ],
-      judgeList: [],
-      discussionList: [],
+      judgeList: [
+        {
+          question: "aaaaa",
+        },
+      ],
+      discussionList: [
+        {
+          question: "aaaaa",
+        },
+      ],
       programList: [],
       isShowS: false,
       isShowJ: false,
@@ -162,16 +187,7 @@ export default {
     };
   },
   created() {},
-  methods: {
-    JumpTo(key) {
-      const PageId = document.querySelector(`#${key}`);
-      // console.log(PageId.offsetTop);
-      window.scroll({
-        top: PageId.offsetTop,
-        behavior: 'smooth',
-      });
-    },
-  },
+  methods: {},
 };
 </script>
 

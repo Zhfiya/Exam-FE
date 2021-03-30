@@ -1,35 +1,25 @@
 <template>
-  <div id="singleQuestion" class="flex-col">
+  <div id="discussionQuestion" class="flex-col">
     <el-card class="single_card">
-      <label class="question_type">选择题</label>
+      <label class="question_type">简答题</label>
       <div
         class="question_box flex-col"
-        v-for="item in this.singleQuestionList"
+        v-for="item in this.discussionQuestionList"
         :key="item.question"
       >
         <div class="single_row">
           <label class="index">1.</label>
           <label class="timu">{{ item.question }}</label>
         </div>
-        <div class="single_row op_row">
-          <el-radio v-model="answer" label="A" class="op_row">
-            A：{{ item.optionA }}
-          </el-radio>
-        </div>
-        <div class="single_row op_row">
-          <el-radio v-model="answer" label="B" class="op_row">
-            B：{{ item.optionB }}
-          </el-radio>
-        </div>
-        <div class="single_row op_row">
-          <el-radio v-model="answer" label="C" class="op_row">
-            C：{{ item.optionC }}
-          </el-radio>
-        </div>
-        <div class="single_row op_row">
-          <el-radio v-model="answer" label="D" class="op_row">
-            D：{{ item.optionD }}
-          </el-radio>
+        <div class="single_row op">
+          <el-input
+            type="textarea"
+            placeholder="请输入内容"
+            autosize
+            v-model="answer"
+            @paste.native.capture.prevent="handlePaste"
+          >
+          </el-input>
         </div>
       </div>
     </el-card>
@@ -38,25 +28,19 @@
 
 <script>
 export default {
-  name: "singleQues",
   props: {
     // 父组件传值，index：下标，SingleQ：单选题
     // index: {
     //     type: Number,
     //   required: true,
     // },
-    singleQuestionList: {
+    discussionQuestionList: {
       required: false,
     },
   },
   data() {
     return {
       answer: "",
-      optionA:
-        "aasssaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      optionB: "ss",
-      optionC: "dv",
-      optionD: "cd",
       question:
         "nihszzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzssssssssssssssssssssssssssssssssssssssssssssssssssdxsu",
       info: {},
@@ -64,7 +48,7 @@ export default {
   },
   created() {
     // this.Question();
-    console.log(this.SingleQ);
+    console.log(this.discussionQuestionList);
   },
   watch: {
     // answer(val) {
@@ -78,29 +62,13 @@ export default {
     //   this.$emit("func", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
     // },
   },
-  methods: {
-    Question() {
-      // 渲染获取到的题目和选项
-      //   this.timu = this.SingleQ.timu;
-      //   if (this.SingleQ.options) {
-      //     const oplist = this.SingleQ.options.split(";");
-      //     const a = oplist[0];
-      //     const b = oplist[1];
-      //     const c = oplist[2];
-      //     const d = oplist[3];
-      //     this.optionA = a;
-      //     this.optionB = b;
-      //     this.optionC = c;
-      //     this.optionD = d;
-      //   }
-    },
-  },
+  methods: {},
 };
 </script>
 
 <style lang="less" scoped>
 @import "../../../../style/common.less";
-#singleQuestion {
+#discussionQuestion {
   .single_card {
     width: 100%;
     height: 60%;
