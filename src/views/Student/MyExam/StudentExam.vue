@@ -105,6 +105,8 @@ export default {
   data() {
     return {
       questionType: "single",
+      path: "ws://localhost:8999/websocket/",
+      ws: {},
       selectCount: [
         { index: 1 },
         { index: 2 },
@@ -186,8 +188,17 @@ export default {
       second: "00",
     };
   },
-  created() {},
-  methods: {},
+  created() {
+    this.init();
+  },
+  methods: {
+    init() {
+      this.ws = new WebSocket(this.path);
+      this.ws.onopen = () => {
+        console.log(this.ws.readyState);
+      };
+    },
+  },
 };
 </script>
 
