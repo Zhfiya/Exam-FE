@@ -68,6 +68,8 @@ export default {
     deleteQues() {
       this.question = "";
       this.correctAnswer = "";
+      this.tag = "";
+      this.score = 0;
     },
   },
 };
@@ -77,6 +79,7 @@ export default {
 @import "../../../../style/common.less";
 #setDiscuss {
   padding: 10px;
+  margin-bottom: 50px;
   .ques_box {
     color: @regularText;
     .ques_row {

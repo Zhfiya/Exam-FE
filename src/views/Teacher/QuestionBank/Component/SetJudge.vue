@@ -58,7 +58,6 @@ export default {
   data() {
     return {
       question: "",
-      answerOption: [],
       correctAnswer: "",
       tag: "",
       score: "",
@@ -78,7 +77,8 @@ export default {
     },
     deleteQues() {
       this.question = "";
-      this.answerOption = [];
+      this.tag = "";
+      this.score = 0;
       this.correctAnswer = "";
     },
   },
@@ -89,6 +89,7 @@ export default {
 @import "../../../../style/common.less";
 #setJudge {
   padding: 10px;
+  margin-bottom: 50px;
   .ques_box {
     color: @regularText;
     .ques_row {

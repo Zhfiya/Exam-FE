@@ -1,5 +1,5 @@
 <template>
-  <div id="setSingle" class="flex-col">
+  <div id="setProgram" class="flex-col">
     <div class="ques_box">
       <div class="ques_row flex-row">
         <label>题目:</label>
@@ -10,48 +10,39 @@
           autosize
         ></el-input>
       </div>
-      <div class="ques_row flex-row">
-        <label>选项A:</label>
-        <el-input
-          placeholder="请输入选项"
-          v-model="answerOption[0]"
-          clearable
-        ></el-input>
+      <div class="ques_row flex-col">
+        <div>
+          <label>标准样例:</label>
+          <el-button icon="el-icon-plus" size="small" circle @click="Addstd()"></el-button>
+        </div>
+        <div class="example flex-col">
+          <p>样例输入</p>
+          <el-input
+            v-for="(item, index) in answerInput"
+            :key="item.index"
+            type="textarea"
+            v-model="answerInput[index]"
+            autosize
+          ></el-input>
+          <p>样例输出</p>
+          <el-input
+            v-for="(it, index) in answerOutput"
+            :key="it.index"
+            type="textarea"
+            v-model="answerOutput[index]"
+            autosize
+          ></el-input>
+          <p>注：一个输入框为一个输入/输出，若本题无输入，不填标准样例</p>
+        </div>
       </div>
       <div class="ques_row flex-row">
-        <label>选项B:</label>
+        <label>参考答案:</label>
         <el-input
-          placeholder="请输入选项"
-          v-model="answerOption[1]"
-          clearable
+          placeholder="请输入参考答案"
+          v-model="correctAnswer"
+          type="textarea"
+          autosize
         ></el-input>
-      </div>
-      <div class="ques_row flex-row">
-        <label>选项C:</label>
-        <el-input
-          placeholder="请输入选项"
-          v-model="answerOption[2]"
-          clearable
-        ></el-input>
-      </div>
-      <div class="ques_row flex-row">
-        <label>选项D:</label>
-        <el-input
-          placeholder="请输入选项"
-          v-model="answerOption[3]"
-          clearable
-        ></el-input>
-      </div>
-      <div class="ques_row flex-row">
-        <label>答案:</label>
-        <el-select v-model="correctAnswer">
-          <el-option
-            v-for="item in options"
-            :key="item.valuse"
-            :label="item.value"
-            :value="item.value"
-          ></el-option>
-        </el-select>
       </div>
       <el-divider></el-divider>
       <div class="ques_row flex-row">
@@ -62,7 +53,7 @@
         <label>分值:</label>
         <el-input placeholder="请输入分值" v-model="score" clearable></el-input>
       </div>
-      <div class="ques_row">
+      <div class="button_row">
         <el-button @click="s(item)">提交</el-button>
         <el-button @click="deleteQues()" class="clear">清空</el-button>
       </div>
@@ -90,7 +81,8 @@ export default {
   data() {
     return {
       question: "",
-      answerOption: [],
+      answerOutput:[''],
+      answerInput:[''],
       correctAnswer: "",
       tag: "",
       score: 0,
@@ -111,15 +103,17 @@ export default {
     };
   },
   methods: {
-    s(item) {
-      console.log(item);
+    Addstd() { // 添加样例
+      this.answerInput.push('');
+      this.answerOutput.push('');
     },
     deleteQues() {
       this.question = "";
-      this.answerOption = [];
-      this.correctAnswer = "";
+      this.answerOutput=[''];
+      this.answerInput=[''];
       this.tag = "";
       this.score = 0;
+      this.correctAnswer = "";
     },
   },
 };
@@ -127,7 +121,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../../style/common.less";
-#setSingle {
+#setProgram {
   padding: 10px;
   margin-bottom: 50px;
   .ques_box {
@@ -144,6 +138,25 @@ export default {
       /deep/ .el-textarea {
         width: 90%;
       }
+      /deep/ .el-button {
+          margin-left: 10px;
+      }
+        .example {
+            /deep/ .el-textarea__inner {
+                background-color: @background;
+                border: 0;
+                margin-top: 10px;
+                font-weight: bold;
+            }
+            width: 100%;
+            p {
+                text-align: left;
+                font-weight: bold;
+                padding: 10px 0;
+            }
+        }
+    }
+    .button_row {
       /deep/ .el-button {
         margin-top: 4px;
         height: 30px;

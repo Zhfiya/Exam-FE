@@ -49,7 +49,22 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="编程题"></el-tab-pane>
+      <el-tab-pane label="编程题">
+        <div class="flex-col">
+          <div class="ques_num flex-row">
+            <label>题量：</label>
+            <el-input v-model="programNum" size="small"></el-input>
+          </div>
+          <div
+            v-for="item in programList"
+            :key="item.index"
+            class="ques_box flex-col"
+          >
+            <label>编程题-{{ item.index }}</label>
+            <set-program :index="item.index"></set-program>
+          </div>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -58,11 +73,13 @@
 import SetSingle from "./Component/SetSingle";
 import SetJudge from "./Component/SetJudge";
 import SetDiscuss from "./Component/SetDiscuss";
+import SetProgram from "./Component/SetProgram";
 export default {
   components: {
     SetSingle,
     SetJudge,
     SetDiscuss,
+    SetProgram,
   },
   watch: {
     singleNum(val) {
@@ -95,7 +112,7 @@ export default {
         }
       }
     },
-    programsingleNum(val) {
+    programNum(val) {
       if (Number(val) !== 0) {
         this.programList = [];
         this.programNum = Number(val);
