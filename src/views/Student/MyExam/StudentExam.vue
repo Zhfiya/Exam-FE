@@ -90,6 +90,7 @@ import SingleQuestion from "./Component/SingleQuestion.vue";
 import JudgeQuestion from "./Component/JudgeQuestion.vue";
 import DiscussionQuestion from "./Component/DiscussionQuestion";
 import ProgramQuestion from "./Component/ProgramQuestion.vue";
+import QuestionAPI from "@/service/StudentExam";
 
 export default {
   components: {
@@ -105,7 +106,7 @@ export default {
   data() {
     return {
       questionType: "single",
-      path: "ws://localhost:8999/websocket/",
+      path: "ws://localhost:7788/websocket/",
       ws: {},
       selectCount: [
         { index: 1 },
@@ -190,6 +191,7 @@ export default {
   },
   created() {
     this.init();
+    this.getQuestion();
   },
   methods: {
     init() {
@@ -197,6 +199,19 @@ export default {
       this.ws.onopen = () => {
         console.log(this.ws.readyState);
       };
+    },
+    getQuestion() {
+      QuestionAPI.requestQuestionList({
+        exam_id: 1,
+        user_id: 2018110214,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+          // this.$message.error("发生错误");
+        });
     },
   },
 };

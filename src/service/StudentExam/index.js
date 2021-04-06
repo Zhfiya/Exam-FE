@@ -7,11 +7,12 @@ export default {
    *
    * @returns {Promise<Object>}
    */
-  async requestCardFile() {
+  async requestQuestionList(data) {
     const res = await NetworkRequest({
-      url: "", //接口
-      method: "get", //请求method
-      postHeaderType: "application/x-www-form-urlencoded", //请求头格式
+      url: "/exam/getQuestionList", //接口
+      method: "post", //请求method
+      // postHeaderType: "application/x-www-form-urlencoded", //请求头格式
+      data
     });
     return res.data;
   },

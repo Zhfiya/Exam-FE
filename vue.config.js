@@ -8,18 +8,18 @@ function resolve(dir) {
 module.exports = {
   devServer: {
     open: true,
-    host: "localhost",
-    port: 2989,
-    https: false,
+    // host: "localhost",
+    // port: 2989,
+    // https: false,
     proxy: {
       "/api": {
         //代理字段设置
         target: `http://${ip}:7788/`, //填写后台接口
         ws: true,
         changOrigin: true, //设置允许跨域
-        pathRewrite: {
-          "^/api": "", //除去代理字段
-        },
+        // pathRewrite: {
+        //   "^/api": "", //除去代理字段
+        // },
       },
     },
   }, //网关配置

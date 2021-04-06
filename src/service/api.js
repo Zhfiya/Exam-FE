@@ -1,7 +1,7 @@
 import Store from "@/store/index";
 import { Message, MessageBox, Loading } from "element-ui";
 import axios from "axios";
-import qs from "qs";
+// import qs from "qs";
 axios.defaults.baseURL = "/api/";
 
 /**
@@ -19,21 +19,21 @@ export const NetworkRequest = (options) => {
     let loading = null;
     let {
       timeout,
-      postHeaderType,
+      // postHeaderType,
       throttle,
       url,
       method,
       data,
-      fileType,
+      // fileType,
     } = options;
 
     axios.defaults.timeout = timeout || 30000; //设置超时时间
-    axios.defaults.headers.post["Content-Type"] =
-      postHeaderType || "application/x-www-form-urlencoded"; //设置post方式时的请求头
-    axios.defaults.headers.put["Content-Type"] =
-      postHeaderType || "application/x-www-form-urlencoded"; //设置put方式时的请求头
-    axios.defaults.headers.delete["Content-Type"] =
-      postHeaderType || "application/x-www-form-urlencoded"; //设置delete方式时的请求头
+    // axios.defaults.headers.post["Content-Type"] =
+    //   postHeaderType || "application/x-www-form-urlencoded"; //设置post方式时的请求头
+    // axios.defaults.headers.put["Content-Type"] =
+    //   postHeaderType || "application/x-www-form-urlencoded"; //设置put方式时的请求头
+    // axios.defaults.headers.delete["Content-Type"] =
+    //   postHeaderType || "application/x-www-form-urlencoded"; //设置delete方式时的请求头
 
     //请求拦截
     axios.interceptors.request.use(
@@ -52,6 +52,7 @@ export const NetworkRequest = (options) => {
         return config;
       },
       (error) => {
+        console.log(error);
         Message.error({ message: "请求超时，请稍后重试" });
       }
     );
@@ -96,76 +97,15 @@ export const NetworkRequest = (options) => {
       }
     );
 
-    if (method == "get") {
+    if (method == "post") {
       axios
-        .get(url, {
-          params: data,
-        })
+        .post(url, data)
         .then((res) => {
           resolve(res);
         })
         .catch((err) => {
           reject(err);
         });
-    } else if (method == "delete") {
-      axios
-        .delete(url, { params: data })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    } else {
-      let params;
-      if (postHeaderType === "multipart/form-data") {
-        let formData = new FormData();
-        for (let item in data) {
-          formData.append(item, data[item]);
-        }
-        params = formData;
-      } else if (postHeaderType === "application/json") {
-        params = data;
-      } else {
-        params = qs.stringify(data, { indices: false });
-      }
-      if (method == "post") {
-        if (fileType) {
-          let config = {
-            onUploadProgress: (progressEvent) => {
-              let complete =
-                ((progressEvent.loaded / progressEvent.total) * 100) | 0;
-              Store.commit("UPLOAD_USER_PROGRESS", complete);
-            },
-          };
-          axios
-            .post(url, params, config)
-            .then((res) => {
-              resolve(res);
-            })
-            .catch((err) => {
-              reject(err);
-            });
-        } else {
-          axios
-            .post(url, params)
-            .then((res) => {
-              resolve(res);
-            })
-            .catch((err) => {
-              reject(err);
-            });
-        }
-      } else {
-        axios
-          .put(url, params)
-          .then((res) => {
-            resolve(res);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      }
     }
   });
 };

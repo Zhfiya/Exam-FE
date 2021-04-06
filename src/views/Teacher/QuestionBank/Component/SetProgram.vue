@@ -13,7 +13,12 @@
       <div class="ques_row flex-col">
         <div>
           <label>标准样例:</label>
-          <el-button icon="el-icon-plus" size="small" circle @click="Addstd()"></el-button>
+          <el-button
+            icon="el-icon-plus"
+            size="small"
+            circle
+            @click="Addstd()"
+          ></el-button>
         </div>
         <div class="example flex-col">
           <p>样例输入</p>
@@ -81,8 +86,8 @@ export default {
   data() {
     return {
       question: "",
-      answerOutput:[''],
-      answerInput:[''],
+      answerOutput: [""],
+      answerInput: [""],
       correctAnswer: "",
       tag: "",
       score: 0,
@@ -103,14 +108,15 @@ export default {
     };
   },
   methods: {
-    Addstd() { // 添加样例
-      this.answerInput.push('');
-      this.answerOutput.push('');
+    Addstd() {
+      // 添加样例
+      this.answerInput.push("");
+      this.answerOutput.push("");
     },
     deleteQues() {
       this.question = "";
-      this.answerOutput=[''];
-      this.answerInput=[''];
+      this.answerOutput = [""];
+      this.answerInput = [""];
       this.tag = "";
       this.score = 0;
       this.correctAnswer = "";
@@ -139,22 +145,22 @@ export default {
         width: 90%;
       }
       /deep/ .el-button {
-          margin-left: 10px;
+        margin-left: 10px;
       }
-        .example {
-            /deep/ .el-textarea__inner {
-                background-color: @background;
-                border: 0;
-                margin-top: 10px;
-                font-weight: bold;
-            }
-            width: 100%;
-            p {
-                text-align: left;
-                font-weight: bold;
-                padding: 10px 0;
-            }
+      .example {
+        /deep/ .el-textarea__inner {
+          background-color: @background;
+          border: 0;
+          margin-top: 10px;
+          font-weight: bold;
         }
+        width: 100%;
+        p {
+          text-align: left;
+          font-weight: bold;
+          padding: 10px 0;
+        }
+      }
     }
     .button_row {
       /deep/ .el-button {
