@@ -12,7 +12,7 @@ export default {
       url: "/exam/getQuestionList", //接口
       method: "post", //请求method
       // postHeaderType: "application/x-www-form-urlencoded", //请求头格式
-      data
+      data,
     });
     return res.data;
   },

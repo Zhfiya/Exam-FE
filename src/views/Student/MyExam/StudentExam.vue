@@ -14,6 +14,7 @@
               class="question_item"
               v-for="(item, index) in selectCount"
               :key="index"
+              :class="{active: singleQues[index]}"
             >
               {{ index + 1 }}
             </div>
@@ -65,17 +66,22 @@
       <div class="question_box">
         <single-question
           :singleQuestionList="singleList"
+          @getInfo="getAnswerList"
           v-if="questionType === 'single'"
         ></single-question>
         <judge-question
           :judgeQuestionList="judgeList"
+          @getInfo="getAnswerList"
           v-if="questionType === 'judge'"
         ></judge-question>
         <discussion-question
           :discussionQuestionList="discussionList"
+          @getInfo="getAnswerList"
           v-if="questionType === 'discussion'"
         ></discussion-question>
-        <program-question v-if="questionType === 'program'"></program-question>
+        <program-question
+        :programQuestionList="programList"
+        v-if="questionType === 'program'"></program-question>
       </div>
       <!-- <div class="button_card">
           <button @click="SubmitExam()">交卷</button>
@@ -108,79 +114,26 @@ export default {
       questionType: "single",
       path: "ws://localhost:7788/websocket/",
       ws: {},
-      selectCount: [
-        { index: 1 },
-        { index: 2 },
-        { index: 3 },
-        { index: 31 },
-        { index: 13 },
-        { index: 32 },
-        { index: 33 },
-        { index: 34 },
-        { index: 343 },
-        { index: 342 },
-      ],
-      judgeCount: [
-        { index: 1 },
-        { index: 2 },
-        { index: 3 },
-        { index: 31 },
-        { index: 13 },
-        { index: 32 },
-        { index: 33 },
-        { index: 34 },
-        { index: 343 },
-        { index: 342 },
-      ],
-      discussionCount: [
-        { index: 1 },
-        { index: 2 },
-        { index: 3 },
-        { index: 31 },
-        { index: 13 },
-        { index: 32 },
-        { index: 33 },
-        { index: 34 },
-        { index: 343 },
-        { index: 342 },
-      ],
-      programCount: [
-        { index: 1 },
-        { index: 2 },
-        { index: 3 },
-        { index: 31 },
-        { index: 13 },
-        { index: 32 },
-        { index: 33 },
-        { index: 34 },
-        { index: 343 },
-        { index: 342 },
-      ],
-      singleList: [
-        {
-          optionA: "a",
-          optionB: "ss",
-          optionC: "dv",
-          optionD: "cd",
-          question: "aaaaa",
-        },
-      ],
-      judgeList: [
-        {
-          question: "aaaaa",
-        },
-      ],
-      discussionList: [
-        {
-          question: "aaaaa",
-        },
-      ],
+      // 存放左边list的数量和id
+      selectCount: [],
+      judgeCount: [],
+      discussionCount: [],
+      programCount: [],
+      // 存放各类题目
+      singleList: [],
+      judgeList: [],
+      discussionList: [],
       programList: [],
-      isShowS: false,
-      isShowJ: false,
-      isShowD: false,
-      isShowP: false,
-      answerList: [],
+      // 存放已经做了的题号和答案
+      singleQues:[],
+      judgeQues:[],
+      discussQues:[],
+      programQues:[],
+      // isShowS: false,
+      // isShowJ: false,
+      // isShowD: false,
+      // isShowP: false,
+      // answerList: [],
       res_time: 0,
       curStartTime: "2020-03-17 20:30:00",
       day: "0",
@@ -194,24 +147,63 @@ export default {
     this.getQuestion();
   },
   methods: {
+    // websocket
     init() {
       this.ws = new WebSocket(this.path);
       this.ws.onopen = () => {
         console.log(this.ws.readyState);
       };
+      this.ws.onmessage = (data) => {
+        console.log(data.data);
+      };
     },
+    // 获取题目
     getQuestion() {
       QuestionAPI.requestQuestionList({
         exam_id: 1,
         user_id: 2018110214,
       })
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
+          // 存放各类题目
+          this.singleList = res.data.Single;
+          this.singleList.forEach((el) => {
+            const oplist = el.options.split(";");
+            el.options = oplist;
+          });
+          this.judgeList = res.data.Judge;
+          this.discussionList = res.data.Discussion;
+          this.programList = res.data.Program;
+          // 存放各类count
+          this.singleList.forEach((el) => {
+            this.selectCount.push({ index: el.question_id });
+          });
+          this.judgeList.forEach((el) => {
+            this.judgeCount.push({ index: el.question_id });
+          });
+          this.discussionList.forEach((el) => {
+            this.discussionCount.push({ index: el.question_id });
+          });
+          this.programList.forEach((el) => {
+            this.programCount.push({ index: el.question_id });
+          });
         })
         .catch((err) => {
           console.log(err);
           // this.$message.error("发生错误");
         });
+    },
+    // 处理已经做了的题,左边的list变色
+    getAnswerList(data) {
+      // const type = data.type;
+      // this.type = data.answer;
+      const len = this.selectCount.length;
+      // console.log(data.answer);
+      const answerList = [];
+      for(let i=0;i<len;i+=1) {
+        answerList.push({question_id:this.selectCount[i].index,answer:data.answer[i]});
+      }
+      // console.log(answerList);
     },
   },
 };
@@ -259,6 +251,10 @@ export default {
           border-radius: @smallBorderRadius;
           border: 1px solid @primaryColor;
           cursor: pointer;
+        }
+        .active {
+          background-color: @correlateColor3;
+          color: white;
         }
       }
     }

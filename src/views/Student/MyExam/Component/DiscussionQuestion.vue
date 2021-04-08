@@ -41,26 +41,22 @@ export default {
   data() {
     return {
       answer: "",
-      question:
-        "nihszzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzssssssssssssssssssssssssssssssssssssssssssssssssssdxsu",
+      question: "",
       info: {},
     };
   },
   created() {
     // this.Question();
-    console.log(this.discussionQuestionList);
+    // console.log(this.discussionQuestionList);
   },
   watch: {
-    // answer(val) {
-    //   this.info = {
-    //     question_id: this.SingleQ.question_id,
-    //     answer: val,
-    //     score: 0,
-    //     type: "Single",
-    //     num: this.index + 1,
-    //   };
-    //   this.$emit("func", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
-    // },
+    answer(val) {
+      this.info = {
+        answer: val,
+        type: 'discuss',
+      };
+      this.$emit("getInfo", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
+    },
   },
   methods: {},
 };

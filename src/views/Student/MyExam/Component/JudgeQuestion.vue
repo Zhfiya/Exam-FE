@@ -25,11 +25,6 @@
 <script>
 export default {
   props: {
-    // 父组件传值，index：下标，SingleQ：单选题
-    // index: {
-    //     type: Number,
-    //   required: true,
-    // },
     judgeQuestionList: {
       required: false,
     },
@@ -37,31 +32,22 @@ export default {
   data() {
     return {
       answer: "",
-      optionA:
-        "aasssaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      optionB: "ss",
-      optionC: "dv",
-      optionD: "cd",
-      question:
-        "nihszzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzssssssssssssssssssssssssssssssssssssssssssssssssssdxsu",
+      question: "",
       info: {},
     };
   },
   created() {
     // this.Question();
-    console.log(this.judgeQuestionList);
+    // console.log(this.judgeQuestionList);
   },
   watch: {
-    // answer(val) {
-    //   this.info = {
-    //     question_id: this.SingleQ.question_id,
-    //     answer: val,
-    //     score: 0,
-    //     type: "Single",
-    //     num: this.index + 1,
-    //   };
-    //   this.$emit("func", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
-    // },
+    answer(val) {
+      this.info = {
+        answer: val,
+        type: 'judge',
+      };
+      this.$emit("getInfo", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
+    },
   },
   methods: {},
 };

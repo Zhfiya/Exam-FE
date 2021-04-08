@@ -2,10 +2,14 @@
   <div id="programQuestion">
     <el-card class="single_card">
       <label class="question_type">编程题</label>
-      <div class="question_box">
+      <div
+      class="question_box"
+      v-for="item in this.programQuestionList"
+      :key="item.question"
+      >
         <div class="single_row">
           <label class="index">1.</label>
-          <label class="timu">{{ timu }}</label>
+          <label class="timu">{{ item.question }}</label>
         </div>
         <div class="single_row">
           <div class="example flex-col">
@@ -135,12 +139,9 @@ export default {
   name: "progarmQues",
   props: {
     // 父组件传值，index：下标，ProgramQ：编程题，examId：考试id
-    ProgramQ: {
-      required: false,
-    },
-    examId: {
-      type: Number,
-    },
+    programQuestionList: {
+      require: false,
+    }
   },
   components: {
     codemirror,
@@ -153,8 +154,7 @@ export default {
       stdinput: "ss",
       stdoutput: "as",
       code: "",
-      tip:
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      tip: "",
       score: 0,
 
       language: "",
@@ -193,7 +193,7 @@ export default {
   },
   created() {
     // this.Question();
-    // console.log(this.ProgramQ);
+    console.log(this.programQuestionList);
   },
   watch: {
     dialogVisible(val) {

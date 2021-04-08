@@ -4,7 +4,7 @@
       <label class="question_type">选择题</label>
       <div
         class="question_box flex-col"
-        v-for="item in this.singleQuestionList"
+        v-for="(item,index) in this.singleQuestionList"
         :key="item.question"
       >
         <div class="single_row">
@@ -12,23 +12,23 @@
           <label class="timu">{{ item.question }}</label>
         </div>
         <div class="single_row op_row">
-          <el-radio v-model="answer" label="A" class="op_row">
-            A：{{ item.optionA }}
+          <el-radio v-model="answer[index]" label="A" class="op_row">
+            A：{{ item.options[0] }}
           </el-radio>
         </div>
         <div class="single_row op_row">
-          <el-radio v-model="answer" label="B" class="op_row">
-            B：{{ item.optionB }}
+          <el-radio v-model="answer[index]" label="B" class="op_row">
+            B：{{ item.options[1] }}
           </el-radio>
         </div>
         <div class="single_row op_row">
-          <el-radio v-model="answer" label="C" class="op_row">
-            C：{{ item.optionC }}
+          <el-radio v-model="answer[index]" label="C" class="op_row">
+            C：{{ item.options[2] }}
           </el-radio>
         </div>
         <div class="single_row op_row">
-          <el-radio v-model="answer" label="D" class="op_row">
-            D：{{ item.optionD }}
+          <el-radio v-model="answer[index]" label="D" class="op_row">
+            D：{{ item.options[3] }}
           </el-radio>
         </div>
       </div>
@@ -40,59 +40,36 @@
 export default {
   name: "singleQues",
   props: {
-    // 父组件传值，index：下标，SingleQ：单选题
-    // index: {
-    //     type: Number,
-    //   required: true,
-    // },
     singleQuestionList: {
       required: false,
     },
   },
   data() {
     return {
-      answer: "",
-      optionA:
-        "aasssaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      optionB: "ss",
-      optionC: "dv",
-      optionD: "cd",
-      question:
-        "nihszzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzssssssssssssssssssssssssssssssssssssssssssssssssssdxsu",
+      answer: [],
       info: {},
     };
   },
-  created() {
-    // this.Question();
-    console.log(this.SingleQ);
+  beforecreated() {
+    this.Question();
   },
   watch: {
-    // answer(val) {
-    //   this.info = {
-    //     question_id: this.SingleQ.question_id,
-    //     answer: val,
-    //     score: 0,
-    //     type: "Single",
-    //     num: this.index + 1,
-    //   };
-    //   this.$emit("func", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
-    // },
+    answer(val) {
+      this.info = {
+        answer: val,
+        type: 'single',
+      };
+      this.$emit("getInfo", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
+    },
   },
   methods: {
     Question() {
-      // 渲染获取到的题目和选项
-      //   this.timu = this.SingleQ.timu;
-      //   if (this.SingleQ.options) {
-      //     const oplist = this.SingleQ.options.split(";");
-      //     const a = oplist[0];
-      //     const b = oplist[1];
-      //     const c = oplist[2];
-      //     const d = oplist[3];
-      //     this.optionA = a;
-      //     this.optionB = b;
-      //     this.optionC = c;
-      //     this.optionD = d;
-      //   }
+      // 处理获取到的选项
+      this.singleQuestionList.forEach((el) => {
+        const oplist = el.options.split(";");
+        el.options = oplist;
+        // console.log(this.singleQuestionList);
+      });
     },
   },
 };
