@@ -3,9 +3,9 @@ import { NetworkRequest } from "../api";
 export default {
   /**
    * 获取考题
-   * @param {Object}
+   * @param {Object} exam_id:考试id，user_id:用户id
    *
-   * @returns {Promise<Object>}
+   * @returns {Promise<Object>} single:[],judge:[],discussion:[],program:[]
    */
   async requestQuestionList(data) {
     const res = await NetworkRequest({

@@ -4,11 +4,11 @@
       <label class="question_type">简答题</label>
       <div
         class="question_box flex-col"
-        v-for="item in this.discussionQuestionList"
+        v-for="(item,index) in this.discussionQuestionList"
         :key="item.question"
       >
         <div class="single_row">
-          <label class="index">1.</label>
+          <label class="index">{{ index+1 }}.</label>
           <label class="timu">{{ item.question }}</label>
         </div>
         <div class="single_row op">
@@ -16,7 +16,7 @@
             type="textarea"
             placeholder="请输入内容"
             autosize
-            v-model="answer"
+            v-model="answer[index]"
             @paste.native.capture.prevent="handlePaste"
           >
           </el-input>
@@ -40,22 +40,25 @@ export default {
   },
   data() {
     return {
-      answer: "",
+      answer: [],
       question: "",
       info: {},
     };
   },
   created() {
-    // this.Question();
-    // console.log(this.discussionQuestionList);
+    // 取出localStorage里的答案
+    if (localStorage.getExpire('discussionAnswer')) {
+      this.answer = localStorage.getExpire('discussionAnswer').answer;
+    }
   },
   watch: {
     answer(val) {
       this.info = {
         answer: val,
-        type: 'discuss',
+        type: "discussion",
       };
       this.$emit("getInfo", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
+      localStorage.setExpire('discussionAnswer',this.info,1000000); // 将答案存到localStorage里，定义过期时间，这里的10000000大概是四个小时
     },
   },
   methods: {},

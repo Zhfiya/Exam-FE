@@ -3,9 +3,9 @@
     <el-card class="single_card">
       <label class="question_type">编程题</label>
       <div
-      class="question_box"
-      v-for="item in this.programQuestionList"
-      :key="item.question"
+        class="question_box"
+        v-for="item in this.programQuestionList"
+        :key="item.question"
       >
         <div class="single_row">
           <label class="index">1.</label>
@@ -141,7 +141,7 @@ export default {
     // 父组件传值，index：下标，ProgramQ：编程题，examId：考试id
     programQuestionList: {
       require: false,
-    }
+    },
   },
   components: {
     codemirror,
