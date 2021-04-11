@@ -8,7 +8,7 @@
         :key="item.question"
       >
         <div class="single_row">
-          <label class="index">{{ index+1 }}.</label>
+          <label class="index">{{ index + 1 }}.</label>
           <label class="timu">{{ item.question }}</label>
         </div>
         <div class="single_row op_row">
@@ -55,8 +55,8 @@ export default {
   },
   created() {
     // 取出localStorage里的答案
-    if (localStorage.getExpire('singleAnswer')) {
-      this.answer = localStorage.getExpire('singleAnswer').answer;
+    if (localStorage.getExpire("singleAnswer")) {
+      this.answer = localStorage.getExpire("singleAnswer").answer;
     }
   },
   watch: {
@@ -66,7 +66,7 @@ export default {
         answer: val,
         type: "single",
       };
-      localStorage.setExpire('singleAnswer',this.info,10000000); // 将答案存到localStorage里，定义过期时间，这里的10000000大概是四个小时
+      localStorage.setExpire("singleAnswer", this.info, 10000000); // 将答案存到localStorage里，定义过期时间，这里的10000000大概是四个小时
       this.$emit("getInfo", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
     },
   },

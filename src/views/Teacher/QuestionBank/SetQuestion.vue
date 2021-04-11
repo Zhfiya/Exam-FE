@@ -90,6 +90,8 @@ export default {
         for (i = 0; i < val; i++) {
           this.singleList.push({ index: i + 1 });
         }
+      } else {
+        this.singleList = [];
       }
     },
     judgeNum(val) {
@@ -100,6 +102,8 @@ export default {
         for (i = 0; i < val; i++) {
           this.judgeList.push({ index: i + 1 });
         }
+      } else {
+        this.judgeList = [];
       }
     },
     discussNum(val) {
@@ -110,6 +114,8 @@ export default {
         for (i = 0; i < val; i++) {
           this.discussList.push({ index: i + 1 });
         }
+      } else {
+        this.discussList = [];
       }
     },
     programNum(val) {
@@ -120,6 +126,8 @@ export default {
         for (i = 0; i < val; i++) {
           this.programList.push({ index: i + 1 });
         }
+      } else {
+        this.programList = [];
       }
     },
   },

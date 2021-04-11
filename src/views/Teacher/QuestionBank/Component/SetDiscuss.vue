@@ -28,6 +28,17 @@
         <label>分值:</label>
         <el-input placeholder="请输入分值" v-model="score" clearable></el-input>
       </div>
+      <div class="ques_row flex-row">
+        <label>难易程度:</label>
+        <el-select v-model="level">
+          <el-option
+            v-for="item in levels"
+            :key="item.index"
+            :label="item.value"
+            :value="item.index"
+          ></el-option>
+        </el-select>
+      </div>
       <div class="ques_row">
         <el-button @click="s(item)">提交</el-button>
         <el-button @click="deleteQues()" class="clear">清空</el-button>
@@ -59,6 +70,21 @@ export default {
       correctAnswer: "",
       tag: "",
       score: "",
+      level: 0,
+      levels: [
+        {
+          value: "简单",
+          index: 0,
+        },
+        {
+          value: "中等",
+          index: 1,
+        },
+        {
+          value: "困难",
+          index: 2,
+        },
+      ],
     };
   },
   methods: {

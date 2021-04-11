@@ -13,12 +13,19 @@
       <div class="ques_row flex-col">
         <div>
           <label>标准样例:</label>
-          <el-button
-            icon="el-icon-plus"
-            size="small"
-            circle
-            @click="Addstd()"
-          ></el-button>
+          <el-tooltip
+            content="添加样例"
+            placement="right"
+            :open-delay="500"
+            effect="light"
+          >
+            <el-button
+              icon="el-icon-plus"
+              size="small"
+              circle
+              @click="Addstd()"
+            ></el-button>
+          </el-tooltip>
         </div>
         <div class="example flex-col">
           <p>样例输入</p>
@@ -58,6 +65,17 @@
         <label>分值:</label>
         <el-input placeholder="请输入分值" v-model="score" clearable></el-input>
       </div>
+      <div class="ques_row flex-row">
+        <label>难易程度:</label>
+        <el-select v-model="level">
+          <el-option
+            v-for="item in levels"
+            :key="item.index"
+            :label="item.value"
+            :value="item.index"
+          ></el-option>
+        </el-select>
+      </div>
       <div class="button_row">
         <el-button @click="s(item)">提交</el-button>
         <el-button @click="deleteQues()" class="clear">清空</el-button>
@@ -91,18 +109,19 @@ export default {
       correctAnswer: "",
       tag: "",
       score: 0,
-      options: [
+      level: 0,
+      levels: [
         {
-          value: "A",
+          value: "简单",
+          index: 0,
         },
         {
-          value: "B",
+          value: "中等",
+          index: 1,
         },
         {
-          value: "C",
-        },
-        {
-          value: "D",
+          value: "困难",
+          index: 2,
         },
       ],
     };

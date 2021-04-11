@@ -195,11 +195,11 @@ export default {
           // this.$message.error("发生错误");
         });
     },
-    // 检查webstorage 
+    // 检查webstorage
     getLocalStorage() {
       // 判断localStorage里是否存放答案，如存放则取出。(避免意外刷新页面造成数据丢失)
-      if (localStorage.getExpire('singleAnswer')) {
-        const data = localStorage.getExpire('singleAnswer');
+      if (localStorage.getExpire("singleAnswer")) {
+        const data = localStorage.getExpire("singleAnswer");
         const answerList = [];
         for (let i = 0; i < this.selectCount.length; i += 1) {
           answerList.push({
@@ -210,8 +210,8 @@ export default {
         this.selectCount = answerList; // 存放localStorage里的答案和question_id
       }
       // 同选择题
-      if (localStorage.getExpire('judgeAnswer')){
-        const data = localStorage.getExpire('judgeAnswer');
+      if (localStorage.getExpire("judgeAnswer")) {
+        const data = localStorage.getExpire("judgeAnswer");
         const answerList = [];
         for (let i = 0; i < this.judgeCount.length; i += 1) {
           answerList.push({
@@ -221,8 +221,8 @@ export default {
         }
         this.judgeCount = answerList;
       }
-      if (localStorage.getExpire('discussionAnswer')){
-        const data = localStorage.getExpire('discussionAnswer');
+      if (localStorage.getExpire("discussionAnswer")) {
+        const data = localStorage.getExpire("discussionAnswer");
         const answerList = [];
         for (let i = 0; i < this.discussionCount.length; i += 1) {
           answerList.push({
@@ -232,8 +232,8 @@ export default {
         }
         this.discussionCount = answerList;
       }
-      if (localStorage.getExpire('programAnswer')){
-        const data = localStorage.getExpire('programAnswer');
+      if (localStorage.getExpire("programAnswer")) {
+        const data = localStorage.getExpire("programAnswer");
         const answerList = [];
         for (let i = 0; i < this.programCount.length; i += 1) {
           answerList.push({
