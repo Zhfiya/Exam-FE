@@ -117,7 +117,7 @@ export default {
   data() {
     return {
       questionType: "single",
-      path: "ws://localhost:7788/websocket/",
+      path: "ws://121.36.18.182:7788/api/ws/asset",
       ws: {},
       // 存放题目id和答案，并对已作答的题目进行区分显示
       selectCount: [],
@@ -146,16 +146,33 @@ export default {
     this.init();
     this.getQuestion();
   },
+  beforeDestroy() {
+    this.close();
+  },
   methods: {
     // websocket
     init() {
       this.ws = new WebSocket(this.path);
       this.ws.onopen = () => {
-        console.log(this.ws.readyState);
+        console.log('状态：' + this.ws.readyState);
+        this.sendMessage();
+        this.ws.onmessage = (e) => {
+          // const da = JSON.parse(e.data);
+          console.log(e);
+        };
       };
-      this.ws.onmessage = (data) => {
-        console.log(data.data);
+    },
+    sendMessage() {
+      const data = {
+        type:"999",
+        exam_id:"123",
+        user_id:"123",
       };
+      this.ws.send(JSON.stringify(data));
+    },
+    // 关闭websocket
+    close() {
+      this.ws.close();
     },
     // 获取题目
     getQuestion() {

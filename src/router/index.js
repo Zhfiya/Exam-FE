@@ -2,6 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import UserLogin from "@/views/Login/UserLogin";
+import IndexStudent from "../views/Student/IndexStudent.vue";
+import StudentExam from "@/views/Student/MyExam/StudentExam";
+import StudentExamList from '@/views/Student/MyExam/ExamList';
 
 Vue.use(VueRouter);
 
@@ -24,9 +27,24 @@ const routes = [
     component: Home,
   },
   {
+    path:"/index-student",
+    name: "IndexStudent",
+    component:IndexStudent,
+  },
+  {
     path: "/login",
     name: "UserLogin",
     component: UserLogin,
+  },
+  {
+    path: "/student-exam",
+    name: "StudentExam",
+    component: StudentExam,
+  },
+  {
+    path: "/student-exam-list",
+    name: "StudentExamList",
+    component: StudentExamList,
   },
   ...routerList,
 ];

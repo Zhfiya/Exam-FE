@@ -7,13 +7,13 @@
         :open-delay="500"
         effect="light"
       >
-        <img src="@/assets/icon.png" class="logo" alt="" />
+        <img src="@/assets/icon.png" class="logo" @click="goTo('/')" />
       </el-tooltip>
     </div>
     <div class="headerBox">
       <p class="name">学生成绩检测平台</p>
       <div class="itemBox">
-        <p class="item">我的考试</p>
+        <p class="item" @click="goTo('/student-exam-list')">我的考试</p>
         <p class="item">练习中心</p>
         <p class="item">个人中心</p>
       </div>
@@ -22,7 +22,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    goTo(path) {
+      this.$router.push(path);
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
