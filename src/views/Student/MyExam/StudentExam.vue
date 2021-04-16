@@ -154,7 +154,7 @@ export default {
     init() {
       this.ws = new WebSocket(this.path);
       this.ws.onopen = () => {
-        console.log('状态：' + this.ws.readyState);
+        console.log("状态：" + this.ws.readyState);
         this.sendMessage();
         this.ws.onmessage = (e) => {
           // const da = JSON.parse(e.data);
@@ -164,9 +164,9 @@ export default {
     },
     sendMessage() {
       const data = {
-        type:"999",
-        exam_id:"123",
-        user_id:"123",
+        type: "999",
+        exam_id: "123",
+        user_id: "123",
       };
       this.ws.send(JSON.stringify(data));
     },

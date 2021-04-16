@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import { codemirror } from "vue-codemirror";
-import { Message } from "element-ui";
+import { Collapse, CollapseItem, Message } from "element-ui";
 import "codemirror/lib/codemirror.css";
 
 import {
@@ -41,6 +41,8 @@ Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Button);
 Vue.use(Divider);
+Vue.use(Collapse);
+Vue.use(CollapseItem);
 
 Vue.use(codemirror);
 

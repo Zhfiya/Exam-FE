@@ -16,6 +16,8 @@
         <p class="item" @click="goTo('/student-exam-list')">我的考试</p>
         <p class="item">练习中心</p>
         <p class="item">个人中心</p>
+        <p class="item">题库</p>
+        <p class="item">阅卷中心</p>
       </div>
     </div>
   </div>
@@ -26,8 +28,8 @@ export default {
   methods: {
     goTo(path) {
       this.$router.push(path);
-    }
-  }
+    },
+  },
 };
 </script>
 
