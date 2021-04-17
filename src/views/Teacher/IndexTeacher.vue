@@ -8,12 +8,17 @@
           :key="item.course_id"
           :title="item.name"
           :name="item.name"
+          class="flex-col"
         >
-          <p class="detail">这门课程</p>
+          <div class="flex-row">
+            <p class="detail">课程代码：KBGFRS</p>
+            <p class="detail">课程人数：</p>
+          </div>
           <course-card></course-card>
         </el-collapse-item>
       </el-collapse>
     </div>
+    <div class="add_row"></div>
   </div>
 </template>
 
@@ -48,6 +53,7 @@ export default {
 <style lang="less" scoped>
 @import url("../../style/common.less");
 #indexTeacher {
+  padding: 0 5%;
   .title {
     padding: 10px;
     background-color: @background;
@@ -55,11 +61,20 @@ export default {
   }
   .course_box {
     margin-top: 20px;
+    color: @regularText;
     .detail {
       margin-bottom: 10px;
+      margin-right: 10px;
+      color: @regularText;
     }
-    /deep/ .el-collapse-item {
-      font-size: 16px;
+    /deep/ .el-collapse-item__header {
+      font-size: 18px;
+      padding: 0 10px;
+    }
+    /deep/ .el-collapse-item__content {
+      font-size: 14px;
+      padding: 20px;
+      background: @lighterBackground;
     }
   }
 }

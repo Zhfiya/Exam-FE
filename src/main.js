@@ -3,7 +3,6 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import { codemirror } from "vue-codemirror";
-import { Collapse, CollapseItem, Message } from "element-ui";
 import "codemirror/lib/codemirror.css";
 
 import {
@@ -23,6 +22,10 @@ import {
   TabPane,
   Button,
   Divider,
+  Collapse,
+  CollapseItem,
+  Message,
+  MessageBox,
 } from "element-ui";
 
 Vue.use(Header);
@@ -48,6 +51,7 @@ Vue.use(codemirror);
 
 Vue.config.productionTip = false;
 Vue.prototype.$message = Message;
+Vue.prototype.$confirm = MessageBox.confirm;
 
 // 定义localStorage储存的方法
 Storage.prototype.setExpire = (key, value, expire) => {

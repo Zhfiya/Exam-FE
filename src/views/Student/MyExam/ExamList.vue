@@ -4,24 +4,16 @@
     <div class="list_box">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="全部" name="all">
-          <div v-for="item in examAll" :key="item.exam_id">
-            <exam-card></exam-card>
-          </div>
+          <exam-card :examInfo="examAll"></exam-card>
         </el-tab-pane>
         <el-tab-pane label="未开始" name="none">
-          <div v-for="item in examNone" :key="item.exam_id">
-            <exam-card></exam-card>
-          </div>
+          <exam-card :examInfo="examNone"></exam-card>
         </el-tab-pane>
         <el-tab-pane label="正在进行" name="ing">
-          <div v-for="item in examIng" :key="item.exam_id">
-            <exam-card></exam-card>
-          </div>
+          <exam-card :examInfo="examIng"></exam-card>
         </el-tab-pane>
         <el-tab-pane label="已结束" name="end">
-          <div v-for="item in examEnd" :key="item.exam_id">
-            <exam-card></exam-card>
-          </div>
+          <exam-card :examInfo="examEnd"></exam-card>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -40,9 +32,11 @@ export default {
       examAll: [
         {
           exam_id: 1,
+          name: "第一次考试",
         },
         {
           exam_id: 2,
+          name: "第二次考试",
         },
       ],
       examNone: [
@@ -69,6 +63,7 @@ export default {
     };
   },
   methods: {
+    // 选择展现的状态
     handleClick(tab) {
       console.log(tab.name);
     },
