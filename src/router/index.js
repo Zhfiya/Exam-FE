@@ -6,7 +6,6 @@ import IndexStudent from "../views/Student/IndexStudent.vue";
 import StudentExam from "@/views/Student/MyExam/StudentExam";
 import StudentExamList from "@/views/Student/MyExam/ExamList";
 import IndexTeacher from "@/views/Teacher/IndexTeacher";
-import ExamDetail from "@/views/Student/MyExam/ExamDetail";
 
 Vue.use(VueRouter);
 
@@ -52,11 +51,6 @@ const routes = [
     path: "/index-teacher",
     name: "IndexTeacher",
     component: IndexTeacher,
-  },
-  {
-    path: "/exam-detail",
-    name: "ExamDetail",
-    component: ExamDetail,
   },
   ...routerList,
 ];

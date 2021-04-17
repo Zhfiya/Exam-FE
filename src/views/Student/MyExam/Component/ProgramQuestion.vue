@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="single_row">
-          <label class="tip">提示：{{ tip }}</label>
+          <label class="tip">提示：{{ item.tip }}</label>
         </div>
         <div class="single_row">
           <label class="ques_label">语言：</label>
@@ -123,6 +123,7 @@
 </template>
 
 <script>
+import JudgeAPI from "@/service/StudentExam";
 import { codemirror } from "vue-codemirror";
 
 require("codemirror/addon/edit/matchbrackets.js");
@@ -151,12 +152,11 @@ export default {
       answer: "",
       status: "",
       timu: "",
-      stdinput: "ss",
-      stdoutput: "as",
+      stdinput: [],
+      stdoutput: [],
       code: "",
       tip: "",
       score: 0,
-
       language: "",
       lis: [
         {
@@ -192,7 +192,7 @@ export default {
     };
   },
   created() {
-    // this.Question();
+    this.Question();
     console.log(this.programQuestionList);
   },
   watch: {
@@ -216,27 +216,14 @@ export default {
     // },
   },
   methods: {
-    sessionJudge() {
-      // session判断
-      localStorage.setItem("Login", "false");
-      this.$message({
-        message: "登录过期，请重新登录",
-        type: "error",
-        offset: 70,
-      });
-      this.$router.push("/");
-    },
     Question() {
       // 渲染获取到的题目
-      this.timu = this.ProgramQ.question;
-      this.type = this.ProgramQ.type;
-      this.tip = this.ProgramQ.tip;
-      if (this.ProgramQ.input === null) {
+      if (this.programQuestionList.input === null) {
         this.stdinput = "无";
       } else {
-        this.stdinput = this.ProgramQ.input;
+        this.stdinput = this.programQuestionList.input;
       }
-      this.stdoutput = this.ProgramQ.output;
+      this.stdoutput = this.programQuestionList.output;
     },
     getTime() {
       // 时间戳转换时间
@@ -252,65 +239,58 @@ export default {
     async submit() {
       // 运行编程题
       // console.log(this.code);
-      try {
-        const res = await this.$axios.post(`${this.HOST}/exam/judgeProgram`, {
-          code: this.code,
-          language: this.language,
-          question_id: this.ProgramQ.question_id,
-          exam_id: this.examId,
-        });
-        // console.log(res);
-        if (res.data.code === 200) {
-          const info = res.data.data;
-          // console.log(info.compile_error);
-          if (info.compile_error === true) {
+      JudgeAPI.judgeProgram({
+        exam_id: 1,
+        user_id: 2018110214,
+        question_id: 270,
+        language: this.language,
+        code: this.code,
+      })
+        .then((res) => {
+          if (res.code === 200) {
+            const info = res.data;
+            // console.log(info.compile_error);
+            if (info.compile_error === true) {
+              this.$message({
+                type: "error",
+                message: "编译错误",
+                offset: 70,
+              });
+            } else {
+              // 编译成功后的数据渲染
+              this.score = info.score;
+              // console.log(info);
+              this.statusList.push({
+                date: this.getTime(),
+                status: info.status,
+                score: this.score,
+                language: info.language,
+                username: info.username,
+                num: info.num,
+              }); // 状态数据渲染
+              const testCase = info.test_case_res; // 测试样例数据渲染
+              testCase.forEach((item) => {
+                this.testList.push({
+                  number: item.case_num,
+                  result: item.result,
+                  runtime: item.run_time,
+                  memory: item.memory,
+                });
+              });
+              this.dialogVisible = true; // 渲染弹框
+            }
+          } else {
+            // 报错提醒
             this.$message({
               type: "error",
-              message: "编译错误",
+              message: res.data.message,
               offset: 70,
             });
-          } else {
-            // 编译成功后的数据渲染
-            this.score = info.score;
-            // console.log(info);
-            this.statusList.push({
-              date: this.getTime(),
-              status: info.status,
-              score: this.score,
-              language: info.language,
-              username: info.username,
-              num: info.num,
-            }); // 状态数据渲染
-            const testCase = info.test_case_res; // 测试样例数据渲染
-            testCase.forEach((item) => {
-              this.testList.push({
-                number: item.case_num,
-                result: item.result,
-                runtime: item.run_time,
-                memory: item.memory,
-              });
-            });
-            this.dialogVisible = true; // 渲染弹框
           }
-        } else {
-          // 报错提醒
-          this.$message({
-            type: "error",
-            message: res.data.message,
-            offset: 70,
-          });
-        }
-      } catch (err) {
-        if (err.response.status === 401) {
-          this.sessionJudge();
-        } else {
-          this.$message({
-            message: "系统异常",
-            type: "error",
-            offset: 70,
-          });
-        }
-      }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

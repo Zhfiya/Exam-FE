@@ -35,12 +35,14 @@
         <div class="info_row flex-row">
           <p class="before">状态：</p>
           <p>正在进行</p>
-          <el-button @click="toExam">进入考试</el-button>
+          <el-button type="success" @click="toExam">进入考试</el-button>
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="examDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="examDialogVisible = false"
+        <el-button type="info" plain @click="examDialogVisible = false"
+          >取 消</el-button
+        >
+        <el-button type="success" @click="examDialogVisible = false" plain
           >确 定</el-button
         >
       </span>
@@ -65,9 +67,8 @@ export default {
     console.log(this.examInfo);
   },
   methods: {
-    // 跳转考试详情
+    // 考试详情
     locateTo(item) {
-      // this.$router.push('/exam-detail');
       this.examDialogVisible = true;
       this.selectExam = item;
       console.log(item);
