@@ -156,6 +156,11 @@ export default {
       this.ws.onopen = () => {
         // console.log(this.ws);
         this.sendMessage();
+        this.ws.onmessage = (data) => {
+          // const da = JSON.parse(e.data);
+          console.log(data);
+          console.log("a");
+        };
       };
     },
     // 发送数据
@@ -170,9 +175,9 @@ export default {
     },
     // 接收数据
     getMessage() {
-      this.ws.onmessage = (e) => {
+      this.ws.onmessage = (data) => {
         // const da = JSON.parse(e.data);
-        console.log(e);
+        console.log(data);
         console.log("a");
       };
     },
