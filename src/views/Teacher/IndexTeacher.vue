@@ -10,11 +10,18 @@
           :name="item.name"
           class="flex-col"
         >
-          <div class="flex-row">
-            <p class="detail">课程代码：KBGFRS</p>
-            <p class="detail">课程人数：</p>
+          <div class="flex-row detail_row">
+            <div class="flex-row">
+              <p class="detail">课程代码：{{ courseCode }}</p>
+              <p class="detail">课程人数：{{ studentNum }}</p>
+            </div>
+            <el-button type="success" plain>添加考试</el-button>
           </div>
-          <course-card></course-card>
+          <div
+          v-for="it in item.examList"
+          :key="it.exam_id">
+            <course-card :examDetail="it"></course-card>
+          </div>
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -31,10 +38,25 @@ export default {
   data() {
     return {
       activeName: "1",
+      courseCode: "BKFRUV",
+      studentNum: 13,
       courseList: [
         {
           course_id: 1,
           name: "数据库",
+          examList:[{
+            exam_id:1,
+            name: "第一次考试",
+            status: "未改卷",
+            time: "2020-04-19",
+            studentNum: 59,
+          },{
+            exam_id:2,
+            name: "第二次考试",
+            status: "考试进行中",
+            time: "2020-04-19",
+            studentNum: 59,
+          }],
         },
         {
           course_id: 2,
@@ -75,6 +97,12 @@ export default {
       font-size: 14px;
       padding: 20px;
       background: @lighterBackground;
+      .detail_row {
+        justify-content:space-between;
+      }
+      .el-button {
+        padding: 10px;
+      }
     }
   }
 }
