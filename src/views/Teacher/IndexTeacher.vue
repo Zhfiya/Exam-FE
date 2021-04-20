@@ -1,6 +1,9 @@
 <template>
   <div id="indexTeacher">
-    <label class="title">我管理的</label>
+    <div class="top_row flex-row">
+      <label class="title">我管理的</label>
+      <el-button>添加课程</el-button>
+    </div>
     <div class="course_box">
       <el-collapse v-model="activeName" accordion>
         <el-collapse-item
@@ -15,7 +18,7 @@
               <p class="detail">课程代码：{{ courseCode }}</p>
               <p class="detail">课程人数：{{ studentNum }}</p>
             </div>
-            <el-button type="success" plain>添加考试</el-button>
+            <el-button type="primary" plain>添加考试</el-button>
           </div>
           <div
           v-for="it in item.examList"
@@ -24,8 +27,8 @@
           </div>
         </el-collapse-item>
       </el-collapse>
+      <!-- <p class="a">sss</p> -->
     </div>
-    <div class="add_row"></div>
   </div>
 </template>
 
@@ -75,23 +78,38 @@ export default {
 <style lang="less" scoped>
 @import url("../../style/common.less");
 #indexTeacher {
+  .top_row {
+    justify-content: space-between;
+    .el-button {
+      padding: 10px;
+    }
+  }
   padding: 0 5%;
+  background-color: @lighterBackground;
   .title {
     padding: 10px;
-    background-color: @background;
+    background-color: @tcorrelateColor1;
     color: @primaryText;
   }
   .course_box {
     margin-top: 20px;
     color: @regularText;
+    height: 600px;
+    overflow-y: scroll;
+    .a {
+      height: 1000px;
+    }
     .detail {
       margin-bottom: 10px;
       margin-right: 10px;
       color: @regularText;
     }
     /deep/ .el-collapse-item__header {
-      font-size: 18px;
+      font-size: 16px;
       padding: 0 10px;
+      color: @primaryText;
+      border-radius: 2px;
+      background-color: @background;
     }
     /deep/ .el-collapse-item__content {
       font-size: 14px;
@@ -105,5 +123,12 @@ export default {
       }
     }
   }
+  .add_row {
+    margin-top: 50px;
+
+  }
+.course_box::-webkit-scrollbar {
+  display: none;
+}
 }
 </style>

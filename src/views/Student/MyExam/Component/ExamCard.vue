@@ -7,7 +7,10 @@
       class="exam_box"
     >
       <div class="info_row flex-row">
-        <p class="title">{{ item.name }}</p>
+        <div class="flex-row">
+          <img src="@/assets/Student/examTitle.png">
+          <p class="title">{{ item.name }}</p>
+        </div>
         <p class="time">2020-04-28</p>
       </div>
       <div class="info_row flex-row">
@@ -102,6 +105,10 @@ export default {
       .min {
         font-size: 14px;
         color: @secondaryText;
+      }
+      img {
+        width: 24px;
+        height: 24px;
       }
     }
   }
