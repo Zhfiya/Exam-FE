@@ -1,21 +1,21 @@
 <template>
   <div id="courseCard" class="flex-col">
     <div class="flex-row title">
-      <img src="@/assets/Teacher/indexCourse.png" alt="">
+      <img src="@/assets/Teacher/indexCourse.png" alt="" />
       <p>{{ examDetail.name }}</p>
     </div>
     <div class="flex-row">
-      <img src="@/assets/Teacher/indexTime.png" alt="">
+      <img src="@/assets/Teacher/indexTime.png" alt="" />
       <p>考试时间：</p>
       <p>{{ examDetail.time }}</p>
     </div>
     <div class="flex-row">
-      <img src="@/assets/Teacher/indexPeople.png" alt="">
+      <img src="@/assets/Teacher/indexPeople.png" alt="" />
       <p>考生人数：</p>
-      <p>{{ examDetail.studentNum}}</p>
+      <p>{{ examDetail.studentNum }}</p>
     </div>
     <div class="flex-row status_row">
-      <img src="@/assets/Teacher/indexStatus.png" alt="">
+      <img src="@/assets/Teacher/indexStatus.png" alt="" />
       <p>考试状态：</p>
       <p>{{ examDetail.status }}</p>
       <el-button size="small" type="info" plain>{{ statusAction }}</el-button>
@@ -25,24 +25,24 @@
 
 <script>
 export default {
-  props:{
-    examDetail:{
-      required:true,
-    }
+  props: {
+    examDetail: {
+      required: true,
+    },
   },
   data() {
     return {
       statusAction: "阅卷",
-    }
+    };
   },
   created() {
     console.log(this.examDetail);
-    if(this.examDetail.status === '未改卷') {
+    if (this.examDetail.status === "未改卷") {
       this.statusAction = "阅卷";
-    } else if (this.examDetail.status === '考试进行中') {
+    } else if (this.examDetail.status === "考试进行中") {
       this.statusAction = "修改时间";
     }
-  }
+  },
 };
 </script>
 

@@ -33,10 +33,19 @@ export default {
         {
           exam_id: 1,
           name: "第一次考试",
+          begin_time: "2021-04-19 8:00",
+          last_time: "120min",
+          subject: "数据结构",
+          status: "正在进行中",
         },
         {
           exam_id: 2,
           name: "第二次考试",
+          begin_time: "2021-04-19 8:00",
+          last_time: "120min",
+          subject: "数据结构",
+          status: "已评分",
+          score: "98",
         },
       ],
       examNone: [

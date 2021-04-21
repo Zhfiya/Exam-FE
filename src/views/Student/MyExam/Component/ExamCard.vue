@@ -6,18 +6,21 @@
       @click="locateTo(item)"
       class="exam_box"
     >
-      <div class="info_row flex-row">
+      <div class="title_row flex-row">
         <div class="flex-row">
-          <img src="@/assets/Student/examTitle.png">
-          <p class="title">{{ item.name }}</p>
+          <img src="@/assets/Student/examTitle.png" />
+          <p>{{ item.name }}</p>
         </div>
-        <p class="time">2020-04-28</p>
+        <p>2020-04-28</p>
       </div>
       <div class="info_row flex-row">
-        <p class="min">学科：</p>
+        <p>学科：</p>
+        <p>{{ item.subject }}</p>
       </div>
-      <div class="info_row flex_row">
-        <p class="min">状态：</p>
+      <div class="info_row flex-row">
+        <p>状态：</p>
+        <p>{{ item.status }}</p>
+        <p v-if="item.score" class="score">{{ item.score }}分</p>
       </div>
     </div>
     <el-dialog
@@ -29,16 +32,26 @@
       <div class="flex-col">
         <div class="info_row flex-row">
           <p class="before">学科：</p>
-          <p>aa</p>
+          <p>{{ selectExam.subject }}</p>
         </div>
         <div class="info_row flex-row">
           <p class="before">任课老师：</p>
-          <p>as</p>
+          <p>{{ selectExam.teacher }}</p>
+        </div>
+        <div class="info_row flex-row">
+          <p class="before">开始时间：</p>
+          <p>{{ selectExam.begin_time }}</p>
+        </div>
+        <div class="info_row flex-row">
+          <p class="before">考试时长：</p>
+          <p>{{ selectExam.last_time }}</p>
         </div>
         <div class="info_row flex-row">
           <p class="before">状态：</p>
-          <p>正在进行</p>
-          <el-button type="success" @click="toExam">进入考试</el-button>
+          <p>{{ selectExam.status }}</p>
+          <el-button type="success" @click="toExam">{{
+            statusAction
+          }}</el-button>
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -64,6 +77,7 @@ export default {
     return {
       examDialogVisible: false,
       selectExam: [],
+      statusAction: "",
     };
   },
   created() {
@@ -74,7 +88,11 @@ export default {
     locateTo(item) {
       this.examDialogVisible = true;
       this.selectExam = item;
-      console.log(item);
+      if (item.status === "正在进行中") {
+        this.statusAction = "进入考试";
+      } else if (item.status === "已评分") {
+        this.statusAction = "查看成绩";
+      }
     },
     toExam() {
       this.$router.push("/student-exam");
@@ -92,23 +110,24 @@ export default {
     padding: 20px;
     margin-bottom: 20px;
     cursor: pointer;
-    .info_row {
+    .title_row {
       justify-content: space-between;
       margin-bottom: 5px;
-      .title {
-        // font-weight: bold;
-        color: @primaryText;
-      }
-      .time {
-        color: @primaryText;
-      }
-      .min {
-        font-size: 14px;
-        color: @secondaryText;
-      }
+      color: @primaryText;
+      font-size: 16px;
       img {
         width: 24px;
         height: 24px;
+      }
+    }
+    .info_row {
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: @secondaryText;
+      .score {
+        margin-left: 10px;
+        color: @warningColor;
+        font-weight: bold;
       }
     }
   }

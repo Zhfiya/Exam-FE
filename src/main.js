@@ -26,6 +26,7 @@ import {
   CollapseItem,
   Message,
   MessageBox,
+  DatePicker,
 } from "element-ui";
 
 Vue.use(Header);
@@ -46,6 +47,7 @@ Vue.use(Button);
 Vue.use(Divider);
 Vue.use(Collapse);
 Vue.use(CollapseItem);
+Vue.use(DatePicker);
 
 Vue.use(codemirror);
 

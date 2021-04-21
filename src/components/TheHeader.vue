@@ -15,7 +15,7 @@
       <div class="itemBox">
         <p class="item" @click="goTo('/student-exam-list')">我的考试</p>
         <p class="item">练习中心</p>
-        <p class="item">个人中心</p>
+        <p class="item" @click="goTo('/personal-center')">个人中心</p>
         <p class="item">题库</p>
         <p class="item">阅卷中心</p>
       </div>
