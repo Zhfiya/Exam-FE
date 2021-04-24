@@ -145,6 +145,7 @@ export default {
   created() {
     this.init();
     this.getQuestion();
+    // console.log(this.$route.query.id);
   },
   beforeDestroy() {
     this.close();
@@ -167,7 +168,7 @@ export default {
     sendMessage() {
       const data = {
         type: 999,
-        exam_id: 123,
+        exam_id: this.$route.query.id,
         user_id: 123,
       };
       this.ws.send(JSON.stringify(data));
@@ -189,7 +190,7 @@ export default {
     getQuestion() {
       // 请求试题的接口
       QuestionAPI.requestQuestionList({
-        exam_id: 1,
+        exam_id: this.$route.query.id,
         user_id: 2018110214,
       })
         .then((res) => {

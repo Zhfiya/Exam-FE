@@ -64,6 +64,7 @@
 <script>
 import CourseCard from "./Component/CourseCard";
 import addExamAPI from "@/service/TeacherExam";
+import CourseAPI from "@/service/TeacherSubject";
 export default {
   components: {
     CourseCard,
@@ -109,10 +110,41 @@ export default {
       addDialog: false,
     };
   },
+  created() {
+    this.getCourse();
+  },
   methods: {
+    // 获取课程
+    getCourse() {
+      CourseAPI.teacherGetCourse({
+        user_id: "2018110214",
+      })
+        .then((res) => {
+          console.log(res);
+          res.data.forEach((element) => {
+            CourseAPI.teacherGetCourseExam({
+              user_id: "2018110214",
+              sub_id: element.sub_id,
+            })
+              .then((res) => {
+                console.log(res);
+                res.data.forEach((el) => {
+                  el.begin_time = this.getTime(el.begin_time);
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     addExam() {
       this.addDialog = true;
     },
+    // 添加考试
     submitAdd() {
       addExamAPI
         .teacherAddExam({
@@ -129,6 +161,17 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    getTime(oldDate) {
+      // 时间戳转换时间
+      const date = new Date(oldDate);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      return `${year}-${month}-${day}  ${hours}:${minutes}:${seconds}`;
     },
   },
 };

@@ -2,22 +2,22 @@
   <div id="courseCard" class="flex-col">
     <div class="flex-row title">
       <img src="@/assets/Teacher/indexCourse.png" alt="" />
-      <p>{{ examDetail.name }}</p>
+      <p>{{ examDetail.sub_name }}</p>
     </div>
     <div class="flex-row">
       <img src="@/assets/Teacher/indexTime.png" alt="" />
       <p>考试时间：</p>
-      <p>{{ examDetail.time }}</p>
+      <p>{{ examDetail.begin_time }}</p>
     </div>
     <div class="flex-row">
-      <img src="@/assets/Teacher/indexPeople.png" alt="" />
-      <p>考生人数：</p>
-      <p>{{ examDetail.studentNum }}</p>
+      <img src="@/assets/Teacher/indexTime.png" alt="" />
+      <p>考试时长：</p>
+      <p>{{ examDetail.last_time }} min</p>
     </div>
     <div class="flex-row status_row">
       <img src="@/assets/Teacher/indexStatus.png" alt="" />
       <p>考试状态：</p>
-      <p>{{ examDetail.status }}</p>
+      <p>{{ examDetail.exam_status }}</p>
       <el-button size="small" type="info" plain>{{ statusAction }}</el-button>
     </div>
   </div>
@@ -39,7 +39,7 @@ export default {
     console.log(this.examDetail);
     if (this.examDetail.status === "未改卷") {
       this.statusAction = "阅卷";
-    } else if (this.examDetail.status === "考试进行中") {
+    } else if (this.examDetail.status === "考试进行") {
       this.statusAction = "修改时间";
     }
   },

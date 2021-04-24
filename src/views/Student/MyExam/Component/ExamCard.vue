@@ -9,17 +9,17 @@
       <div class="title_row flex-row">
         <div class="flex-row">
           <img src="@/assets/Student/examTitle.png" />
-          <p>{{ item.name }}</p>
+          <p>{{ item.exam_name }}</p>
         </div>
-        <p>2020-04-28</p>
+        <p>{{ item.begin_time }}</p>
       </div>
       <div class="info_row flex-row">
         <p>学科：</p>
-        <p>{{ item.subject }}</p>
+        <p>{{ item.co_name }}</p>
       </div>
       <div class="info_row flex-row">
         <p>状态：</p>
-        <p>{{ item.status }}</p>
+        <p>{{ item.exam_status }}</p>
         <p v-if="item.score" class="score">{{ item.score }}分</p>
       </div>
     </div>
@@ -32,11 +32,11 @@
       <div class="flex-col">
         <div class="info_row flex-row">
           <p class="before">学科：</p>
-          <p>{{ selectExam.subject }}</p>
+          <p>{{ selectExam.co_name }}</p>
         </div>
         <div class="info_row flex-row">
           <p class="before">任课老师：</p>
-          <p>{{ selectExam.teacher }}</p>
+          <p>{{ selectExam.tea_name }}</p>
         </div>
         <div class="info_row flex-row">
           <p class="before">开始时间：</p>
@@ -44,25 +44,23 @@
         </div>
         <div class="info_row flex-row">
           <p class="before">考试时长：</p>
-          <p>{{ selectExam.last_time }}</p>
+          <p>{{ selectExam.last_time }} min</p>
         </div>
         <div class="info_row flex-row">
           <p class="before">状态：</p>
-          <p>{{ selectExam.status }}</p>
-          <el-button type="success" @click="toExam">{{
+          <p>{{ selectExam.exam_status }}</p>
+          <el-button type="success" @click="Action(selectExam)">{{
             statusAction
           }}</el-button>
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button type="info" plain @click="examDialogVisible = false"
-          >取 消</el-button
-        >
-        <el-button type="success" @click="examDialogVisible = false" plain
-          >确 定</el-button
+          >关 闭</el-button
         >
       </span>
     </el-dialog>
+    <p v-if="this.examInfo.length === 0" class="tip_null">暂无考试</p>
   </div>
 </template>
 
@@ -88,14 +86,16 @@ export default {
     locateTo(item) {
       this.examDialogVisible = true;
       this.selectExam = item;
-      if (item.status === "正在进行中") {
+      if (item.exam_status == "正在进行") {
         this.statusAction = "进入考试";
-      } else if (item.status === "已评分") {
+      } else if (item.exam_status === "已评分") {
         this.statusAction = "查看成绩";
       }
     },
-    toExam() {
-      this.$router.push("/student-exam");
+    Action(item) {
+      if (item.exam_status === "正在进行") {
+        this.$router.push({ path: `/student-exam?id=${item.exam_id}` });
+      }
     },
   },
 };
@@ -118,6 +118,7 @@ export default {
       img {
         width: 24px;
         height: 24px;
+        margin-right: 5px;
       }
     }
     .info_row {
@@ -130,6 +131,11 @@ export default {
         font-weight: bold;
       }
     }
+  }
+  .tip_null {
+    color: @primaryColor;
+    font-weight: bold;
+    font-size: 20px;
   }
   /deep/ .el-dialog {
     .info_row {
