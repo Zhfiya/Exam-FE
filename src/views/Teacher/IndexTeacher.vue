@@ -77,8 +77,7 @@ export default {
       addExamName: "",
       addBeginTime: "",
       addLastTime: "",
-      courseList: [
-      ],
+      courseList: [],
       addDialog: false,
     };
   },
@@ -94,25 +93,25 @@ export default {
         .then((res) => {
           this.courseList = res.data;
           // console.log(this.courseList);
-          res.data.forEach((element,index) => {
+          res.data.forEach((element, index) => {
             CourseAPI.teacherGetCourseExam({
               user_id: "201801",
               sub_id: element.sub_id,
             })
               .then((result) => {
-                result.data.forEach(el=> {
+                result.data.forEach((el) => {
                   el.begin_time = this.getTime(el.begin_time);
-                  if(el.exam_status === 0) {
-                    el.exam_status = '未开始';
-                  } else if(el.exam_status === 1) {
-                    el.exam_status = '正在进行';
+                  if (el.exam_status === 0) {
+                    el.exam_status = "未开始";
+                  } else if (el.exam_status === 1) {
+                    el.exam_status = "正在进行";
                   } else if (el.exam_status === 2) {
-                    el.exam_status = '未评分';
+                    el.exam_status = "未评分";
                   } else if (el.exam_status === 3) {
-                    el.exam_status = '已评分';
+                    el.exam_status = "已评分";
                   }
-                })
-                this.$set(this.courseList[index],"examList",result.data);
+                });
+                this.$set(this.courseList[index], "examList", result.data);
                 console.log(this.courseList);
               })
               .catch((err) => {
