@@ -9,14 +9,14 @@
         <el-collapse-item
           v-for="item in courseList"
           :key="item.course_id"
-          :title="item.name"
-          :name="item.name"
+          :title="item.sub_name"
+          :name="item.sub_name"
           class="flex-col"
         >
           <div class="flex-row detail_row">
             <div class="flex-row">
-              <p class="detail">课程代码：{{ courseCode }}</p>
-              <p class="detail">课程人数：{{ studentNum }}</p>
+              <p class="detail">课程代码：{{ item.sub_id }}</p>
+              <p class="detail">课程人数：{{ item.stu_num }}</p>
             </div>
             <el-button @click="addExam(item.course_id)" type="primary" plain
               >添加考试</el-button
@@ -78,34 +78,6 @@ export default {
       addBeginTime: "",
       addLastTime: "",
       courseList: [
-        {
-          course_id: 1,
-          name: "数据库",
-          examList: [
-            {
-              exam_id: 1,
-              name: "第一次考试",
-              status: "未改卷",
-              time: "2020-04-19",
-              studentNum: 59,
-            },
-            {
-              exam_id: 2,
-              name: "第二次考试",
-              status: "考试进行中",
-              time: "2020-04-19",
-              studentNum: 59,
-            },
-          ],
-        },
-        {
-          course_id: 2,
-          name: "java",
-        },
-        {
-          course_id: 3,
-          name: "计算机网络",
-        },
       ],
       addDialog: false,
     };
@@ -117,20 +89,31 @@ export default {
     // 获取课程
     getCourse() {
       CourseAPI.teacherGetCourse({
-        user_id: "2018110214",
+        user_id: "201801",
       })
         .then((res) => {
-          console.log(res);
-          res.data.forEach((element) => {
+          this.courseList = res.data;
+          // console.log(this.courseList);
+          res.data.forEach((element,index) => {
             CourseAPI.teacherGetCourseExam({
-              user_id: "2018110214",
+              user_id: "201801",
               sub_id: element.sub_id,
             })
-              .then((res) => {
-                console.log(res);
-                res.data.forEach((el) => {
+              .then((result) => {
+                result.data.forEach(el=> {
                   el.begin_time = this.getTime(el.begin_time);
-                });
+                  if(el.exam_status === 0) {
+                    el.exam_status = '未开始';
+                  } else if(el.exam_status === 1) {
+                    el.exam_status = '正在进行';
+                  } else if (el.exam_status === 2) {
+                    el.exam_status = '未评分';
+                  } else if (el.exam_status === 3) {
+                    el.exam_status = '已评分';
+                  }
+                })
+                this.$set(this.courseList[index],"examList",result.data);
+                console.log(this.courseList);
               })
               .catch((err) => {
                 console.log(err);

@@ -2,7 +2,7 @@
   <div id="courseCard" class="flex-col">
     <div class="flex-row title">
       <img src="@/assets/Teacher/indexCourse.png" alt="" />
-      <p>{{ examDetail.sub_name }}</p>
+      <p>{{ examDetail.exam_name }}</p>
     </div>
     <div class="flex-row">
       <img src="@/assets/Teacher/indexTime.png" alt="" />
@@ -32,15 +32,19 @@ export default {
   },
   data() {
     return {
-      statusAction: "阅卷",
+      statusAction: "",
     };
   },
   created() {
-    console.log(this.examDetail);
-    if (this.examDetail.status === "未改卷") {
-      this.statusAction = "阅卷";
-    } else if (this.examDetail.status === "考试进行") {
+    // console.log(this.examDetail);
+    if (this.examDetail.exam_status === "正在进行") {
       this.statusAction = "修改时间";
+    } else if (this.examDetail.exam_status === "未开始") {
+      this.statusAction = "修改试卷";
+    } else if (this.examDetail.exam_status === "未评分") {
+      this.statusAction = "阅卷";
+    } else if (this.examDetail.exam_status === "已评分") {
+      this.statusAction = "查看成绩";
     }
   },
 };
