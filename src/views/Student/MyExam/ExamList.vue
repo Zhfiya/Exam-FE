@@ -68,7 +68,7 @@ export default {
         user_id: "2018110214",
       })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           res.data.forEach((element) => {
             element.begin_time = this.getTime(element.begin_time);
             if (element.exam_status === 0) {

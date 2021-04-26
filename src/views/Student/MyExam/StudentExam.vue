@@ -155,13 +155,8 @@ export default {
     init() {
       this.ws = new WebSocket(this.path);
       this.ws.onopen = () => {
-        // console.log(this.ws);
+        console.log(this.ws);
         this.sendMessage();
-        this.ws.onmessage = (data) => {
-          // const da = JSON.parse(e.data);
-          console.log(data);
-          console.log("a");
-        };
       };
     },
     // 发送数据
@@ -169,17 +164,17 @@ export default {
       const data = {
         type: 999,
         exam_id: this.$route.query.id,
-        user_id: 123,
+        user_id: 2018110214,
       };
       this.ws.send(JSON.stringify(data));
       this.getMessage();
     },
-    // 接收数据
+    // 接收数据,并处理间隔时间
     getMessage() {
       this.ws.onmessage = (data) => {
-        // const da = JSON.parse(e.data);
-        console.log(data);
-        console.log("a");
+        const da = data.data.split(",");
+        const lastTime = da[2].replace("}", "").split("=");
+        this.res_time = lastTime[1];
       };
     },
     // 关闭websocket
@@ -312,6 +307,17 @@ export default {
           len = this.programCount.length;
           break;
       }
+    },
+    getTime(oldDate) {
+      // 时间戳转换时间
+      const date = new Date(oldDate);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      return `${year}-${month}-${day}  ${hours}:${minutes}:${seconds}`;
     },
   },
 };

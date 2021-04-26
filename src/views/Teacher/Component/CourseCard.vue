@@ -18,12 +18,44 @@
       <img src="@/assets/Teacher/indexStatus.png" alt="" />
       <p>考试状态：</p>
       <p>{{ examDetail.exam_status }}</p>
-      <el-button size="small" type="info" plain>{{ statusAction }}</el-button>
+      <el-button
+        class="info_button"
+        size="small"
+        type="info"
+        plain
+        @click="getAction(examDetail)"
+        >{{ statusAction }}</el-button
+      >
     </div>
+    <el-dialog title="修改时间" :visible.sync="dialog" width="30%" center>
+      <div class="flex-col">
+        <div class="flex-row info_row">
+          <p>原时长：</p>
+          <p>{{ selectExamTime }} min</p>
+        </div>
+        <div class="info_row flex-row">
+          <p>新时长：</p>
+          <el-input v-model="newTime">
+            <template slot="append">min</template>
+          </el-input>
+        </div>
+        <div class="info_row flex-row">
+          <p>终止考试：</p>
+          <el-button type="danger" plain @click="confirmEnd"
+            >终止考试</el-button
+          >
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="info" plain @click="dialog = false">取 消</el-button>
+        <el-button type="primary" plain>确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import ExamAPI from "@/service/TeacherExam";
 export default {
   props: {
     examDetail: {
@@ -33,6 +65,10 @@ export default {
   data() {
     return {
       statusAction: "",
+      dialog: false,
+      selectExamTime: "0",
+      selectExamid: 0,
+      newTime: "",
     };
   },
   created() {
@@ -46,6 +82,54 @@ export default {
     } else if (this.examDetail.exam_status === "已评分") {
       this.statusAction = "查看成绩";
     }
+  },
+  methods: {
+    getAction(exam) {
+      this.selectExamid = exam.exam_id;
+      if (exam.exam_status === "正在进行") {
+        // this.statusAction = "修改时间";
+        this.selectExamTime = exam.last_time;
+        this.dialog = true;
+      } else if (exam.exam_status === "未开始") {
+        // this.statusAction = "修改试卷";
+        this.$router.push({
+          path: `/teacher-set-question?id=${this.selectExamid}`,
+        });
+      } else if (exam.exam_status === "未评分") {
+        this.statusAction = "阅卷";
+      } else if (exam.exam_status === "已评分") {
+        this.statusAction = "查看成绩";
+      }
+    },
+    confirmEnd() {
+      this.$confirm("此操作将终止考试, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.endExam();
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+    endExam() {
+      ExamAPI.teacherEndExam({
+        user_id: "201801",
+        exam_id: this.selectExamid,
+      })
+        .then((res) => {
+          console.log(res);
+          this.dialog = false;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>
@@ -68,13 +152,33 @@ export default {
       margin-top: 7px;
     }
   }
-  button {
+  .info_button {
     margin-left: 20px;
   }
   img {
     width: 20px;
     height: 20px;
     margin-right: 5px;
+  }
+  /deep/ .el-dialog {
+    .info_row {
+      margin-bottom: 20px;
+    }
+    p {
+      width: 70px;
+      line-height: 40px;
+    }
+    .el-input {
+      width: 90%;
+    }
+  }
+  /deep/ .el-dialog__footer {
+    .el-button {
+      padding: 10px;
+    }
+  }
+  /deep/ .el-dialog__body {
+    padding: 10px 40px;
   }
 }
 </style>

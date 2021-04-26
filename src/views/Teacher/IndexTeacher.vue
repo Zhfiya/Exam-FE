@@ -18,7 +18,7 @@
               <p class="detail">课程代码：{{ item.sub_id }}</p>
               <p class="detail">课程人数：{{ item.stu_num }}</p>
             </div>
-            <el-button @click="addExam(item.course_id)" type="primary" plain
+            <el-button @click="addExam(item.sub_id)" type="primary" plain
               >添加考试</el-button
             >
           </div>
@@ -40,7 +40,7 @@
           <el-date-picker
             v-model="addBeginTime"
             type="datetime"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="timestamp"
             placeholder="请选择日期时间"
           ></el-date-picker>
         </div>
@@ -75,8 +75,9 @@ export default {
       courseCode: "BKFRUV",
       studentNum: 13,
       addExamName: "",
-      addBeginTime: "",
+      addBeginTime: 0,
       addLastTime: "",
+      selectCourseId: "",
       courseList: [],
       addDialog: false,
     };
@@ -112,7 +113,6 @@ export default {
                   }
                 });
                 this.$set(this.courseList[index], "examList", result.data);
-                console.log(this.courseList);
               })
               .catch((err) => {
                 console.log(err);
@@ -123,15 +123,18 @@ export default {
           console.log(err);
         });
     },
-    addExam() {
+    addExam(id) {
       this.addDialog = true;
+      this.selectCourseId = id;
+      console.log(id);
     },
     // 添加考试
     submitAdd() {
+      console.log(this.addBeginTime);
       addExamAPI
         .teacherAddExam({
-          user_id: "a",
-          sub_id: "ABCDEF",
+          user_id: "201801",
+          sub_id: this.selectCourseId,
           exam_name: this.addExamName,
           begin_time: this.addBeginTime,
           last_time: this.addLastTime,
@@ -219,7 +222,7 @@ export default {
       line-height: 40px;
     }
     .el-input {
-      width: 90%;
+      width: 50%;
     }
   }
   /deep/ .el-dialog__footer {
