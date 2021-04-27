@@ -77,6 +77,7 @@ export default {
   }
   /deep/ .el-divider__text {
     color: @regularText;
+    padding: 5px;
   }
   .el-button {
     padding: 10px;
