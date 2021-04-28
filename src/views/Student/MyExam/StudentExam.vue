@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 import SingleQuestion from "./Component/SingleQuestion.vue";
 import JudgeQuestion from "./Component/JudgeQuestion.vue";
 import DiscussionQuestion from "./Component/DiscussionQuestion";
@@ -111,7 +111,7 @@ export default {
     ProgramQuestion,
   },
   computed: {
-    ...mapState(['userInfo']),
+    ...mapState(["userInfo"]),
     // ...mapState(['examId']),
   },
   data() {

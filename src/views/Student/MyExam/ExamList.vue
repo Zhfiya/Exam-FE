@@ -32,15 +32,14 @@ export default {
   data() {
     return {
       activeName: "all",
-      examAll: [
-      ],
+      examAll: [],
       examNone: [],
       examIng: [],
       examEnd: [],
     };
   },
   computed: {
-    ...mapState(['userInfo']),
+    ...mapState(["userInfo"]),
   },
   created() {
     this.getExamList();

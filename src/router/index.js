@@ -7,6 +7,8 @@ import IndexStudent from "../views/Student/IndexStudent.vue";
 import StudentExam from "@/views/Student/MyExam/StudentExam";
 import StudentExamList from "@/views/Student/MyExam/ExamList";
 import IndexTeacher from "@/views/Teacher/IndexTeacher";
+import SetQuestion from "@/views/Teacher/QuestionBank/SetQuestion";
+import MarkPaper from "@/views/Teacher/MarkPaper/MarkPaper";
 
 Vue.use(VueRouter);
 
@@ -58,7 +60,17 @@ const routes = [
     name: "IndexTeacher",
     component: IndexTeacher,
   },
-  ...routerList,
+  {
+    path: "/teacher-set-question",
+    name: "SetQuestion",
+    component: SetQuestion,
+  },
+  {
+    path: "/teacher-mark-paper",
+    name: "MarkPaper",
+    component: MarkPaper,
+  },
+  // ...routerList,
 ];
 
 const router = new VueRouter({

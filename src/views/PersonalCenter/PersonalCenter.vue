@@ -25,7 +25,7 @@
         </div>
         <div class="flex-row safe_row">
           <p class="before">修改邮箱</p>
-          <p>{{userInfo.email}}</p>
+          <p>{{ userInfo.email }}</p>
           <el-button type="success" plain>验证</el-button>
         </div>
       </div>
@@ -37,7 +37,7 @@
 import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(["userInfo"]),
   },
   data() {
     return {
@@ -45,12 +45,12 @@ export default {
     };
   },
   created() {
-    if(this.userInfo.role === 'student') {
-      this.userRole = '学生';
+    if (this.userInfo.role === "student") {
+      this.userRole = "学生";
     } else {
-      this.userRole= '教师';
+      this.userRole = "教师";
     }
-  }
+  },
 };
 </script>
 

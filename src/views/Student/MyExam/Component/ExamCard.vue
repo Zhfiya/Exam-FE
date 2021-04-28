@@ -49,9 +49,12 @@
         <div class="info_row flex-row">
           <p class="before">状态：</p>
           <p>{{ selectExam.exam_status }}</p>
-          <el-button type="success" @click="Action(selectExam)" v-show="statusAction">{{
-            statusAction
-          }}</el-button>
+          <el-button
+            type="success"
+            @click="Action(selectExam)"
+            v-show="statusAction"
+            >{{ statusAction }}</el-button
+          >
         </div>
       </div>
       <span slot="footer" class="dialog-footer">

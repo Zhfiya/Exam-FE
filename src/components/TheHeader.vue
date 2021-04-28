@@ -1,5 +1,8 @@
 <template>
-  <div id="theHeader" :class="{teacher:role === 'teacher',student:role === 'student'}">
+  <div
+    id="theHeader"
+    :class="{ teacher: role === 'teacher', student: role === 'student' }"
+  >
     <div class="logoBox">
       <el-tooltip
         content="前往首页"
@@ -7,15 +10,31 @@
         :open-delay="500"
         effect="light"
       >
-        <img src="@/assets/icon.png" class="logo" @click="goTo('/student-exam-list')" v-if="role === 'student'" />
-        <img src="@/assets/icon.png" class="logo" @click="goTo('/index-teacher')" v-else />
+        <img
+          src="@/assets/icon.png"
+          class="logo"
+          @click="goTo('/student-exam-list')"
+          v-if="role === 'student'"
+        />
+        <img
+          src="@/assets/icon.png"
+          class="logo"
+          @click="goTo('/index-teacher')"
+          v-else
+        />
       </el-tooltip>
     </div>
     <div class="headerBox">
       <p class="name" v-if="role === 'teacher'">考试平台-教师端</p>
       <p class="name" v-else>考试平台</p>
       <div class="itemBox">
-        <p class="item" @click="goTo('/student-exam-list')" v-if="role === 'student'">我的考试</p>
+        <p
+          class="item"
+          @click="goTo('/student-exam-list')"
+          v-if="role === 'student'"
+        >
+          我的考试
+        </p>
         <p class="item" v-if="role === 'student'">练习中心</p>
         <p class="item" v-if="role === 'teacher'">题库</p>
         <p class="item" v-if="role === 'teacher'">阅卷中心</p>
@@ -26,12 +45,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      role: '',
-    }
+      role: "",
+    };
   },
   created() {
     this.role = this.userInfo.role;
@@ -42,8 +61,8 @@ export default {
     },
   },
   computed: {
-    ...mapState(['userInfo']),
-  }
+    ...mapState(["userInfo"]),
+  },
 };
 </script>
 
@@ -109,7 +128,7 @@ export default {
   }
 }
 .teacher {
-  background-color: @tprimaryColor;
+  background-color: @tcorrelateColor4;
 }
 .student {
   background-color: @primaryColor;
