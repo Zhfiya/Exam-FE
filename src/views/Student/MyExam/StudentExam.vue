@@ -96,7 +96,7 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex';
+import { mapState } from 'vuex';
 import SingleQuestion from "./Component/SingleQuestion.vue";
 import JudgeQuestion from "./Component/JudgeQuestion.vue";
 import DiscussionQuestion from "./Component/DiscussionQuestion";
@@ -111,7 +111,7 @@ export default {
     ProgramQuestion,
   },
   computed: {
-    // ...mapState(['uid']),
+    ...mapState(['userInfo']),
     // ...mapState(['examId']),
   },
   data() {
@@ -164,7 +164,7 @@ export default {
       const data = {
         type: 999,
         exam_id: this.$route.query.id,
-        user_id: 2018110214,
+        user_id: this.userInfo.user_id,
       };
       this.ws.send(JSON.stringify(data));
       this.getMessage();
@@ -186,7 +186,7 @@ export default {
       // 请求试题的接口
       QuestionAPI.requestQuestionList({
         exam_id: this.$route.query.id,
-        user_id: 2018110214,
+        user_id: this.userInfo.user_id,
       })
         .then((res) => {
           // console.log(res.data);

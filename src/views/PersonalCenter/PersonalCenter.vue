@@ -6,11 +6,11 @@
       <div class="basic_info flex-col">
         <div class="basic_row flex-row">
           <p class="before">姓名：</p>
-          <p>{{ userName }}</p>
+          <p>{{ userInfo.user_name }}</p>
         </div>
         <div class="flex-row basic_row">
           <p class="before">学号：</p>
-          <p>{{ userId }}</p>
+          <p>{{ userInfo.user_id }}</p>
         </div>
         <div class="flex-row basic_row">
           <p class="before">角色：</p>
@@ -20,11 +20,12 @@
       <el-divider content-position="left">安全信息</el-divider>
       <div class="safe_info">
         <div class="flex-row safe_row">
-          <p>修改密码</p>
+          <p class="before">修改密码</p>
           <el-button type="success" plain>验证</el-button>
         </div>
         <div class="flex-row safe_row">
-          <p>修改邮箱</p>
+          <p class="before">修改邮箱</p>
+          <p>{{userInfo.email}}</p>
           <el-button type="success" plain>验证</el-button>
         </div>
       </div>
@@ -33,14 +34,23 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState(['userInfo'])
+  },
   data() {
     return {
-      userName: "fine",
-      userId: "201801",
       userRole: "学生",
     };
   },
+  created() {
+    if(this.userInfo.role === 'student') {
+      this.userRole = '学生';
+    } else {
+      this.userRole= '教师';
+    }
+  }
 };
 </script>
 
@@ -71,6 +81,9 @@ export default {
       margin-bottom: 20px;
       p {
         line-height: 40px;
+        margin-right: 20px;
+      }
+      .before {
         width: 100px;
       }
     }

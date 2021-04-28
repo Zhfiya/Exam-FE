@@ -1,5 +1,5 @@
 <template>
-  <div id="theHeader">
+  <div id="theHeader" :class="{teacher:role === 'teacher',student:role === 'student'}">
     <div class="logoBox">
       <el-tooltip
         content="前往首页"
@@ -7,29 +7,43 @@
         :open-delay="500"
         effect="light"
       >
-        <img src="@/assets/icon.png" class="logo" @click="goTo('/')" />
+        <img src="@/assets/icon.png" class="logo" @click="goTo('/student-exam-list')" v-if="role === 'student'" />
+        <img src="@/assets/icon.png" class="logo" @click="goTo('/index-teacher')" v-else />
       </el-tooltip>
     </div>
     <div class="headerBox">
-      <p class="name">学生成绩检测平台</p>
+      <p class="name" v-if="role === 'teacher'">考试平台-教师端</p>
+      <p class="name" v-else>考试平台</p>
       <div class="itemBox">
-        <p class="item" @click="goTo('/student-exam-list')">我的考试</p>
-        <p class="item">练习中心</p>
+        <p class="item" @click="goTo('/student-exam-list')" v-if="role === 'student'">我的考试</p>
+        <p class="item" v-if="role === 'student'">练习中心</p>
+        <p class="item" v-if="role === 'teacher'">题库</p>
+        <p class="item" v-if="role === 'teacher'">阅卷中心</p>
         <p class="item" @click="goTo('/personal-center')">个人中心</p>
-        <p class="item">题库</p>
-        <p class="item">阅卷中心</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
+  data() {
+    return {
+      role: '',
+    }
+  },
+  created() {
+    this.role = this.userInfo.role;
+  },
   methods: {
     goTo(path) {
       this.$router.push(path);
     },
   },
+  computed: {
+    ...mapState(['userInfo']),
+  }
 };
 </script>
 
@@ -38,7 +52,6 @@ export default {
 #theHeader {
   height: 100%;
   color: white;
-  background-color: @primaryColor;
   box-shadow: 0 1px 1px 0 #e7ebf2;
   transform: translate3d(0, 0, 0);
   display: flex;
@@ -94,5 +107,11 @@ export default {
       }
     }
   }
+}
+.teacher {
+  background-color: @tprimaryColor;
+}
+.student {
+  background-color: @primaryColor;
 }
 </style>

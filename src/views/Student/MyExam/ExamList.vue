@@ -21,8 +21,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import ExamCard from "./Component/ExamCard";
 import ExamAPI from "@/service/StudentExam";
+
 export default {
   components: {
     ExamCard,
@@ -31,28 +33,14 @@ export default {
     return {
       activeName: "all",
       examAll: [
-        // {
-        //   exam_id: 1,
-        //   name: "第一次考试",
-        //   begin_time: "2021-04-19 8:00",
-        //   last_time: "120min",
-        //   subject: "数据结构",
-        //   status: "正在进行中",
-        // },
-        // {
-        //   exam_id: 2,
-        //   name: "第二次考试",
-        //   begin_time: "2021-04-19 8:00",
-        //   last_time: "120min",
-        //   subject: "数据结构",
-        //   status: "已评分",
-        //   score: "98",
-        // },
       ],
       examNone: [],
       examIng: [],
       examEnd: [],
     };
+  },
+  computed: {
+    ...mapState(['userInfo']),
   },
   created() {
     this.getExamList();
@@ -65,7 +53,7 @@ export default {
     // 获取考试list,归类并处理状态
     getExamList() {
       ExamAPI.requestExamList({
-        user_id: "2018110214",
+        user_id: this.userInfo.user_id,
       })
         .then((res) => {
           // console.log(res.data);
