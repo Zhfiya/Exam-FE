@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header class="header">
+      <el-header class="header" v-if="userInfo.role">
         <the-header></the-header>
       </el-header>
       <el-main class="main">
@@ -13,9 +13,13 @@
 
 <script>
 import TheHeader from "./components/TheHeader";
+import { mapState } from "vuex";
 export default {
   components: {
     TheHeader,
+  },
+  computed: {
+    ...mapState(["userInfo"]),
   },
 };
 </script>
@@ -29,6 +33,7 @@ body,
   margin: 0;
   height: 100%;
   min-width: 1000px;
+  background-color: #fafafa;
 }
 .main {
   overflow-y: scroll;

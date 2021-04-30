@@ -3,7 +3,7 @@ export default {
   userToken: null,
   userInfo: {
     user_id: "2018110214",
-    role: "teacher",
+    role: "",
     user_name: "fine",
     email: "Paranoid_ZH@163.com",
   },
