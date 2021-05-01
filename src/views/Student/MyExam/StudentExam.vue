@@ -129,7 +129,7 @@ export default {
       judgeList: [],
       discussionList: [],
       programList: [],
-      AllAnswer:[],
+      AllAnswer: [],
       // isShowS: false,
       // isShowJ: false,
       // isShowD: false,
@@ -145,10 +145,10 @@ export default {
   },
   watch: {
     AllAnswer(val) {
-      if (this.ws.readyState===1) {
-        this.sendMessage(99999,val);
+      if (this.ws.readyState === 1) {
+        this.sendMessage(99999, val);
       }
-    }
+    },
   },
   created() {
     this.init();
@@ -165,20 +165,20 @@ export default {
       this.ws = new WebSocket(this.path);
       this.ws.onopen = () => {
         if (this.ws.readyState === 1) {
-          this.sendMessage(999,'');
+          this.sendMessage(999, "");
         }
       };
       this.ws.onerror = (error) => {
         console.log(error);
-      }
+      };
     },
     // 发送数据
-    sendMessage(type,datas) {
+    sendMessage(type, datas) {
       const data = {
         type: type,
         exam_id: this.$route.query.id,
         user_id: this.userInfo.user_id,
-        data:datas,
+        data: datas,
       };
       this.getMessage();
       this.ws.send(JSON.stringify(data));
@@ -188,7 +188,7 @@ export default {
       this.ws.onmessage = (data) => {
         const da = data.data.split(",");
         const lastTime = da[2].replace("}", "").split("=");
-        if(!isNaN(lastTime[1])) {
+        if (!isNaN(lastTime[1])) {
           this.resTime = parseInt(lastTime[1]);
         }
       };

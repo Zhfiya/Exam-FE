@@ -21,4 +21,20 @@ export default {
     });
     return res.data;
   },
+  /**
+   * 查询学生所选课程--fine
+   * @param {Object} "user_id":用户id
+   *
+   *
+   * @returns {Promise<Object>} single:[],judge:[],discussion:[],program:[]
+   */
+  async requestStuSub(data) {
+    const res = await NetworkRequest({
+      url: "/subject/getStuAllSubject", //接口
+      method: "post", //请求method
+      // postHeaderType: "application/x-www-form-urlencoded", //请求头格式
+      data,
+    });
+    return res.data;
+  },
 };

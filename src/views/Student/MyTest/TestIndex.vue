@@ -56,7 +56,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button type="info" plain @click="dialog = false">取 消</el-button>
-        <el-button type="primary" plain>确 定</el-button>
+        <el-button type="primary" @click="submitAdd" plain>确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -64,37 +64,50 @@
 
 <script>
 import TestAPI from "@/service/StudentTest";
+import { mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   data() {
     return {
       dialog: false,
       subId: null,
-      subjects: [
-        {
-          sub_id: 1,
-          sub_name: "java",
-        },
-        {
-          sub_id: 2,
-          sub_name: "c",
-        },
-      ],
+      subjects: [],
       score: 100,
       kind: [0, 0, 0, 0],
       diff: 0,
-      lastTime: 120,
+      lastTime: "120",
+      questionList: [],
     };
+  },
+  created() {
+    this.getSubject();
   },
   methods: {
     submitAdd() {
-      TestAPI.addtest({
+      TestAPI.addTest({
         kind: this.kind,
+        user_id: this.userInfo.user_id,
         sub_id: this.subId,
         score: this.score,
         diff: this.diff / 100,
+        train_time: this.lastTime,
       })
         .then((res) => {
-          console.log(res);
+          //   this.$router.push('/student-exam');
+          this.questionList = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getSubject() {
+      TestAPI.requestStuSub({
+        user_id: this.userInfo.user_id,
+      })
+        .then((res) => {
+          this.subjects = res.data;
         })
         .catch((err) => {
           console.log(err);
