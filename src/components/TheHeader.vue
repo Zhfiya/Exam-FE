@@ -35,7 +35,7 @@
         >
           我的考试
         </p>
-        <p class="item" v-if="role === 'student'">练习中心</p>
+        <p class="item" @click="goTo('/test-index')" v-if="role === 'student'">练习中心</p>
         <p class="item" v-if="role === 'teacher'">题库</p>
         <p class="item" v-if="role === 'teacher'">阅卷中心</p>
         <p class="item" @click="goTo('/personal-center')">个人中心</p>
