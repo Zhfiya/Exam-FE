@@ -1,7 +1,7 @@
 <template>
   <div id="studentExam" class="flex-col">
     <label class="res_time">
-      剩余时间： {{ day }}天{{ hour }}时{{ min }}:{{ second }}
+      剩余时间： {{ hour }}时{{ min }}:{{ second }}
     </label>
     <div class="box_main flex-row">
       <!-- 左边的标题list -->
@@ -134,21 +134,22 @@ export default {
       // isShowD: false,
       // isShowP: false,
       // answerList: [],
-      res_time: 0,
+      resTime: 7800,
       curStartTime: "2020-03-17 20:30:00",
-      day: "0",
       hour: "00",
       min: "00",
       second: "00",
+      timer: "",
     };
   },
   created() {
     this.init();
     this.getQuestion();
-    // console.log(this.$route.query.id);
+    this.changeTime();
   },
   beforeDestroy() {
     this.close();
+    this.clearInterval(this.timer);
   },
   methods: {
     // websocket
@@ -307,6 +308,14 @@ export default {
           len = this.programCount.length;
           break;
       }
+    },
+    changeTime() {
+      this.timer = setInterval(() => {
+        this.resTime--;
+        this.hour = parseInt(this.resTime / 3600);
+        this.min = parseInt((this.resTime / 60) % 60);
+        this.second = parseInt(this.resTime % 60);
+      }, 1000);
     },
     getTime(oldDate) {
       // 时间戳转换时间

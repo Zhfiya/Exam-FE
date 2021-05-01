@@ -46,4 +46,26 @@ export default {
     });
     return res.data;
   },
+  /**
+   * 老师出题--fine
+   * @param 	"exam_id":考试id,"kind":题目类型,"content":题目描述,"answer":答案,
+	            "tip":提示,
+	            "options":选项,
+              "user_id":用户id,
+              "hard":难度,
+              "diff":区分度,
+              "importance":重要性,
+              "chapter":知识点
+   *
+   * @returns {Promise<Object>}
+   */
+  async teacherSaveQuestion(data) {
+    const res = await NetworkRequest({
+      url: "/exam/saveQuestion", //接口
+      method: "post", //请求method
+      // postHeaderType: "application/x-www-form-urlencoded", //请求头格式
+      data,
+    });
+    return res.data;
+  },
 };

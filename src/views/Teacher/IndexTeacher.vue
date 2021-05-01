@@ -141,7 +141,7 @@ export default {
         })
         .then((res) => {
           console.log(res);
-          this.$router.push("/teacher-set-question");
+          this.$router.push({ path: `/teacher-set-question?id=${res.data}` });
         })
         .catch((err) => {
           console.log(err);

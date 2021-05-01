@@ -12,8 +12,8 @@
             :key="item.index"
             class="ques_box flex-col"
           >
-            <label>选择题-{{ item.index }}</label>
-            <set-single :index="item.index"></set-single>
+            <label class="type">选择题-{{ item.index }}</label>
+            <set-single :examId="examId"></set-single>
           </div>
         </div>
       </el-tab-pane>
@@ -28,8 +28,8 @@
             :key="item.index"
             class="ques_box flex-col"
           >
-            <label>判断题-{{ item.index }}</label>
-            <set-judge :index="item.index"></set-judge>
+            <label class="type">判断题-{{ item.index }}</label>
+            <set-judge :examId="examId"></set-judge>
           </div>
         </div>
       </el-tab-pane>
@@ -44,8 +44,8 @@
             :key="item.index"
             class="ques_box flex-col"
           >
-            <label>简答题-{{ item.index }}</label>
-            <set-discuss :index="item.index"></set-discuss>
+            <label class="type">简答题-{{ item.index }}</label>
+            <set-discuss :examId="examId"></set-discuss>
           </div>
         </div>
       </el-tab-pane>
@@ -60,12 +60,15 @@
             :key="item.index"
             class="ques_box flex-col"
           >
-            <label>编程题-{{ item.index }}</label>
-            <set-program :index="item.index"></set-program>
+            <label class="type">编程题-{{ item.index }}</label>
+            <set-program :examId="examId"></set-program>
           </div>
         </div>
       </el-tab-pane>
     </el-tabs>
+    <div class="flex-row">
+      <el-button type="danger">结束出题</el-button>
+    </div>
   </div>
 </template>
 
@@ -83,51 +86,43 @@ export default {
   },
   watch: {
     singleNum(val) {
-      if (Number(val) !== 0) {
+      if (val) {
         this.singleList = [];
         this.singleNum = Number(val);
         let i = 0;
         for (i = 0; i < val; i++) {
           this.singleList.push({ index: i + 1 });
         }
-      } else {
-        this.singleList = [];
       }
     },
     judgeNum(val) {
-      if (Number(val) !== 0) {
+      if (val) {
         this.judgeList = [];
         this.judgeNum = Number(val);
         let i = 0;
         for (i = 0; i < val; i++) {
           this.judgeList.push({ index: i + 1 });
         }
-      } else {
-        this.judgeList = [];
       }
     },
     discussNum(val) {
-      if (Number(val) !== 0) {
+      if (val) {
         this.discussList = [];
         this.discussNum = Number(val);
         let i = 0;
         for (i = 0; i < val; i++) {
           this.discussList.push({ index: i + 1 });
         }
-      } else {
-        this.discussList = [];
       }
     },
     programNum(val) {
-      if (Number(val) !== 0) {
+      if (val) {
         this.programList = [];
         this.programNum = Number(val);
         let i = 0;
         for (i = 0; i < val; i++) {
           this.programList.push({ index: i + 1 });
         }
-      } else {
-        this.programList = [];
       }
     },
   },
@@ -141,9 +136,12 @@ export default {
       discussList: [],
       programNum: 0,
       programList: [],
+      examId: 0,
     };
   },
-  created() {},
+  created() {
+    this.examId = this.$route.query.id;
+  },
 };
 </script>
 
@@ -164,6 +162,13 @@ export default {
   .ques_box {
     margin-top: 20px;
     color: @regularText;
+    .type {
+      font-weight: bold;
+    }
+  }
+  /deep/ .el-button {
+    margin: 20px 0;
+    padding: 10px;
   }
 }
 </style>

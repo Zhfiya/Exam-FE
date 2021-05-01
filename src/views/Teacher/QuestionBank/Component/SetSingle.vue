@@ -63,18 +63,26 @@
         <el-input placeholder="请输入分值" v-model="score" clearable></el-input>
       </div>
       <div class="ques_row flex-row">
-        <label>难易程度:</label>
-        <el-select v-model="level">
+        <label>难度:</label>
+        <el-slider v-model="level" show-input> </el-slider>
+      </div>
+      <div class="ques_row flex-row">
+        <label>区分度:</label>
+        <el-slider v-model="diff" show-input> </el-slider>
+      </div>
+      <div class="ques_row flex-row">
+        <label>重要性:</label>
+        <el-select v-model="importance">
           <el-option
-            v-for="item in levels"
+            v-for="item in importances"
             :key="item.index"
-            :label="item.value"
             :value="item.index"
+            :label="item.value"
           ></el-option>
         </el-select>
       </div>
       <div class="ques_row flex-row">
-        <el-button @click="s()">提交</el-button>
+        <el-button @click="submitAdd()">提交</el-button>
         <el-button @click="deleteQues()" class="clear">清空</el-button>
       </div>
     </div>
@@ -82,7 +90,17 @@
 </template>
 
 <script>
+import ExamAPI from "@/service/TeacherExam";
+import { mapState } from "vuex";
 export default {
+  props: {
+    examId: {
+      required: true,
+    },
+  },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   watch: {
     score(val) {
       if (!val) {
@@ -101,11 +119,14 @@ export default {
   data() {
     return {
       question: "",
+      questionId: null,
       answerOption: [],
       correctAnswer: "",
       tag: "",
       score: 0,
       level: 0,
+      diff: 0,
+      importance: 0,
       options: [
         {
           value: "A",
@@ -120,25 +141,44 @@ export default {
           value: "D",
         },
       ],
-      levels: [
+      importances: [
         {
-          value: "简单",
+          value: "了解",
           index: 0,
         },
         {
-          value: "中等",
+          value: "理解",
           index: 1,
         },
         {
-          value: "困难",
+          value: "掌握",
           index: 2,
         },
       ],
     };
   },
   methods: {
-    s() {
-      console.log(this.level);
+    submitAdd() {
+      ExamAPI.teacherSaveQuestion({
+        content: this.question,
+        exam_id: this.examId,
+        question_id: this.questionId,
+        answer: this.correctAnswer,
+        options: this.answerOption.join(";"),
+        hard: this.level / 100,
+        diff: this.diff / 100,
+        importance: this.importance,
+        score: this.score,
+        kind: 0,
+        user_id: this.userInfo.user_id,
+      })
+        .then((res) => {
+          console.log(res);
+          this.questionId = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     deleteQues() {
       this.question = "";
@@ -181,6 +221,9 @@ export default {
       .clear {
         margin-left: 20px;
         background-color: @warningColor;
+      }
+      /deep/ .el-slider {
+        width: 50%;
       }
     }
   }

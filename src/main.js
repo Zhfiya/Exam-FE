@@ -27,6 +27,7 @@ import {
   Message,
   MessageBox,
   DatePicker,
+  Slider,
 } from "element-ui";
 
 Vue.use(Header);
@@ -48,6 +49,7 @@ Vue.use(Divider);
 Vue.use(Collapse);
 Vue.use(CollapseItem);
 Vue.use(DatePicker);
+Vue.use(Slider);
 
 Vue.use(codemirror);
 
