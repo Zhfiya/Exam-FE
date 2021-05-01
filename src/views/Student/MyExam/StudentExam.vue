@@ -129,6 +129,7 @@ export default {
       judgeList: [],
       discussionList: [],
       programList: [],
+      AllAnswer:[],
       // isShowS: false,
       // isShowJ: false,
       // isShowD: false,
@@ -142,12 +143,19 @@ export default {
       timer: "",
     };
   },
+  watch: {
+    AllAnswer(val) {
+      if (this.ws.readyState===1) {
+        this.sendMessage(99999,val);
+      }
+    }
+  },
   created() {
     this.init();
     this.getQuestion();
     this.changeTime();
   },
-  beforeDestroy() {
+  Destroy() {
     this.close();
     this.clearInterval(this.timer);
   },
@@ -156,26 +164,33 @@ export default {
     init() {
       this.ws = new WebSocket(this.path);
       this.ws.onopen = () => {
-        console.log(this.ws);
-        this.sendMessage();
+        if (this.ws.readyState === 1) {
+          this.sendMessage(999,'');
+        }
       };
+      this.ws.onerror = (error) => {
+        console.log(error);
+      }
     },
     // 发送数据
-    sendMessage() {
+    sendMessage(type,datas) {
       const data = {
-        type: 999,
+        type: type,
         exam_id: this.$route.query.id,
         user_id: this.userInfo.user_id,
+        data:datas,
       };
-      this.ws.send(JSON.stringify(data));
       this.getMessage();
+      this.ws.send(JSON.stringify(data));
     },
     // 接收数据,并处理间隔时间
     getMessage() {
       this.ws.onmessage = (data) => {
         const da = data.data.split(",");
         const lastTime = da[2].replace("}", "").split("=");
-        this.res_time = lastTime[1];
+        if(!isNaN(lastTime[1])) {
+          this.resTime = parseInt(lastTime[1]);
+        }
       };
     },
     // 关闭websocket
@@ -223,6 +238,7 @@ export default {
     // 检查webstorage
     getLocalStorage() {
       // 判断localStorage里是否存放答案，如存放则取出。(避免意外刷新页面造成数据丢失)
+      this.AllAnswer = [];
       if (localStorage.getExpire("singleAnswer")) {
         const data = localStorage.getExpire("singleAnswer");
         const answerList = [];
@@ -268,9 +284,14 @@ export default {
         }
         this.programCount = answerList;
       }
+      this.AllAnswer.push(...this.selectCount);
+      this.AllAnswer.push(...this.judgeCount);
+      this.AllAnswer.push(...this.discussionCount);
+      this.AllAnswer.push(...this.programCount);
     },
     // 处理子组件传来的答案,将答案和question_id存进对应的count数组里，完成实别题目是否已做
     getAnswerList(data) {
+      this.AllAnswer = [];
       let len = 0;
       let answerList = [];
       switch (data.type) {
@@ -283,6 +304,7 @@ export default {
             });
           }
           this.selectCount = answerList;
+          // console.log(answerList);
           break;
         case "judge":
           len = this.judgeCount.length;
@@ -308,6 +330,11 @@ export default {
           len = this.programCount.length;
           break;
       }
+      this.AllAnswer.push(...this.selectCount);
+      this.AllAnswer.push(...this.judgeCount);
+      this.AllAnswer.push(...this.discussionCount);
+      this.AllAnswer.push(...this.programCount);
+      // console.log(this.AllAnswer);
     },
     changeTime() {
       this.timer = setInterval(() => {
