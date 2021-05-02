@@ -5,7 +5,8 @@
         <label class="tip">
           尊敬的老师您好！
           <br />这里是问答题评分中心，左侧是参与本次考试所有学生的学号和姓名，请点击您想评分的学生进行评分，
-          评分结束后记得及时提交，祝您阅卷愉快~<p @click="markAll">全部评完点击这里</p>
+          评分结束后记得及时提交，祝您阅卷愉快~
+          <p @click="markAll">全部评完点击这里</p>
         </label>
       </el-card>
     </div>
@@ -28,7 +29,9 @@
         <el-card>
           <div class="row">
             <label class="ing">考生：</label>
-            <label class="answer ing">{{ this.id }}  --  {{ this.stuName }}</label>
+            <label class="answer ing"
+              >{{ this.id }} -- {{ this.stuName }}</label
+            >
           </div>
           <div class="ques_list">
             <div
@@ -101,10 +104,10 @@ export default {
   methods: {
     getStudent() {
       MarkAPI.requestStudentAnswer({
-        exam_id:this.$route.query.id
+        exam_id: this.$route.query.id,
       })
-      .then((res) => {
-        console.log(res);
+        .then((res) => {
+          console.log(res);
           const info = res.data;
           this.stuAnswer = info.stuInfo;
           const ques = info.question;
@@ -124,10 +127,10 @@ export default {
               active: false,
             });
           });
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     showStuQues(index) {
       this.score = [];
@@ -148,17 +151,17 @@ export default {
     },
     markAll() {
       MarkAPI.markAllPaper({
-        exam_id:this.$route.query.id
+        exam_id: this.$route.query.id,
       })
-      .then((res) =>{
-        console.log(res);
-        if (res.code === 200) {
-          this.$router.push("/index-teacher");
-        }
-      })
-      .catch((err) =>{
-        console.log(err);
-      })
+        .then((res) => {
+          console.log(res);
+          if (res.code === 200) {
+            this.$router.push("/index-teacher");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     SubmitScore() {
       let isOk = false;
@@ -200,19 +203,19 @@ export default {
         stu_id: this.id,
         scoreList,
       })
-      .then((res) => {
-        if (res.code === 200) {
-          this.$message({
-            type: "success",
-            message: "提交成功",
-            offset: 70,
-          });
-        }
-        this.stuList[this.index].active = true;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+        .then((res) => {
+          if (res.code === 200) {
+            this.$message({
+              type: "success",
+              message: "提交成功",
+              offset: 70,
+            });
+          }
+          this.stuList[this.index].active = true;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

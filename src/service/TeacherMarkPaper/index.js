@@ -7,7 +7,7 @@ export default {
    *
    * @returns {Promise<Object>}
    */
-   async requestStudentAnswer(data) {
+  async requestStudentAnswer(data) {
     const res = await NetworkRequest({
       url: "/exam/getDiscussion", //接口
       method: "post", //请求method
@@ -22,7 +22,7 @@ export default {
    *
    * @returns {Promise<Object>}
    */
-   async markPaper(data) {
+  async markPaper(data) {
     const res = await NetworkRequest({
       url: "/exam/handInScore", //接口
       method: "post", //请求method
@@ -37,7 +37,7 @@ export default {
    *
    * @returns {Promise<Object>}
    */
-   async markAllPaper(data) {
+  async markAllPaper(data) {
     const res = await NetworkRequest({
       url: "/exam/completeJudge", //接口
       method: "post", //请求method

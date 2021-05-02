@@ -7,6 +7,16 @@
       >
     </div>
     <label>· 练习记录 ·</label>
+    <div class="train_box">
+      <div class="train_row" v-for="item in trainList" :key="item.train_id">
+        <div class="train_inline">
+          <p>{{ item.train_name }}</p>
+          -----------------
+          <p class="time">时长：{{ item.train_time }}</p>
+        </div>
+      </div>
+    </div>
+
     <el-dialog title="添加训练" :visible.sync="dialog" width="40%" center>
       <div class="flex-col">
         <div class="info_row flex-row">
@@ -78,11 +88,13 @@ export default {
       kind: [0, 0, 0, 0],
       diff: 0,
       lastTime: "120",
-      questionList: [],
+      trainId: 0,
+      trainList: [],
     };
   },
   created() {
     this.getSubject();
+    this.getAllTrain();
   },
   methods: {
     submitAdd() {
@@ -95,8 +107,23 @@ export default {
         train_time: this.lastTime,
       })
         .then((res) => {
-          //   this.$router.push('/student-exam');
-          this.questionList = res.data;
+          this.trainId = res.data;
+          this.$router.push({ path: `/student-test?id=${this.trainId}` });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAllTrain() {
+      TestAPI.requestStuTrain({
+        user_id: this.userInfo.user_id,
+      })
+        .then((res) => {
+          console.log(res);
+          this.trainList = res.data;
+          this.trainList.forEach((el) => {
+            el.train_time = el.train_time / 3600;
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -125,6 +152,19 @@ export default {
     font-size: 18px;
     color: @primaryColor;
     margin: 30px 0;
+  }
+  .train_box {
+    background-color: @background;
+    height: 450px;
+    border-radius: 2px;
+    overflow-y: scroll;
+    .train_row {
+      background-color: @white;
+      margin: 10px;
+      padding: 20px;
+      cursor: pointer;
+      // .train_in
+    }
   }
   /deep/ .el-dialog {
     .info_row {
@@ -155,6 +195,9 @@ export default {
   }
   /deep/ .el-button {
     padding: 10px;
+  }
+  .train_box::-webkit-scrollbar {
+    display: none;
   }
 }
 </style>

@@ -8,7 +8,7 @@
       <el-collapse v-model="activeName" accordion>
         <el-collapse-item
           v-for="item in courseList"
-          :key="item.course_id"
+          :key="item.sub_id"
           :title="item.sub_name"
           :name="item.sub_name"
           class="flex-col"
@@ -65,6 +65,7 @@
 import CourseCard from "./Component/CourseCard";
 import addExamAPI from "@/service/TeacherExam";
 import CourseAPI from "@/service/TeacherSubject";
+import { mapMutations } from "vuex";
 export default {
   components: {
     CourseCard,
@@ -86,6 +87,7 @@ export default {
     this.getCourse();
   },
   methods: {
+    ...mapMutations(["GET_SUBID"]),
     // 获取课程
     getCourse() {
       CourseAPI.teacherGetCourse({
@@ -141,6 +143,7 @@ export default {
         })
         .then((res) => {
           console.log(res);
+          this.GET_SUBID(this.selectCourseId);
           this.$router.push({ path: `/teacher-set-question?id=${res.data}` });
         })
         .catch((err) => {

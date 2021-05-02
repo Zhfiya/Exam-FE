@@ -67,5 +67,20 @@ export default {
       data,
     });
     return res.data;
-  }
+  },
+  /**
+   * 获取知识点--fine
+   * @param {Object} sub_id:课程id
+   *
+   * @returns {Promise<Object>}
+   */
+  async getKonwPonit(data) {
+    const res = await NetworkRequest({
+      url: "/subject/getSubjectChapter", //接口
+      method: "post", //请求method
+      // postHeaderType: "application/x-www-form-urlencoded", //请求头格式
+      data,
+    });
+    return res.data;
+  },
 };

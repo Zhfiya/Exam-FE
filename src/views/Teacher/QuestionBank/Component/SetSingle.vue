@@ -99,7 +99,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["userInfo"]),
+    ...mapState(["userInfo", "subId"]),
   },
   watch: {
     score(val) {
@@ -157,6 +157,9 @@ export default {
       ],
     };
   },
+  created() {
+    this.getPoint();
+  },
   methods: {
     submitAdd() {
       ExamAPI.teacherSaveQuestion({
@@ -175,6 +178,17 @@ export default {
         .then((res) => {
           console.log(res);
           this.questionId = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getPoint() {
+      ExamAPI.getKonwPonit({
+        sub_id: this.subId,
+      })
+        .then((res) => {
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);

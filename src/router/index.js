@@ -5,6 +5,7 @@ import UserLogin from "@/views/Login/UserLogin";
 import PersonalCenter from "@/views/PersonalCenter/PersonalCenter";
 import IndexStudent from "../views/Student/IndexStudent.vue";
 import StudentExam from "@/views/Student/MyExam/StudentExam";
+import StudentTest from "@/views/Student/MyTest/StudentTest";
 import StudentExamList from "@/views/Student/MyExam/ExamList";
 import TestIndex from "@/views/Student/MyTest/TestIndex";
 import IndexTeacher from "@/views/Teacher/IndexTeacher";
@@ -50,6 +51,11 @@ const routes = [
     path: "/student-exam",
     name: "StudentExam",
     component: StudentExam,
+  },
+  {
+    path: "/student-test",
+    name: "StudentTest",
+    component: StudentTest,
   },
   {
     path: "/student-exam-list",
