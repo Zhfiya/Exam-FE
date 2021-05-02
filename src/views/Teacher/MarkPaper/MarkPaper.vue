@@ -5,7 +5,7 @@
         <label class="tip">
           尊敬的老师您好！
           <br />这里是问答题评分中心，左侧是参与本次考试所有学生的学号和姓名，请点击您想评分的学生进行评分，
-          评分结束后记得及时提交，祝您阅卷愉快~
+          评分结束后记得及时提交，祝您阅卷愉快~<p @click="markAll">全部评完点击这里</p>
         </label>
       </el-card>
     </div>
@@ -28,7 +28,7 @@
         <el-card>
           <div class="row">
             <label class="ing">考生：</label>
-            <label class="answer ing">{{ this.id }}</label>
+            <label class="answer ing">{{ this.id }}  --  {{ this.stuName }}</label>
           </div>
           <div class="ques_list">
             <div
@@ -45,7 +45,7 @@
                   <label>学生答案：</label>
                   <label class="answer">{{ item.stuanswer }}</label>
                 </div>
-                <div class="row">
+                <div class="row std">
                   <label>参考答案：</label>
                   <label class="answer">{{ item.answer }}</label>
                 </div>
@@ -70,12 +70,14 @@
 
 <script>
 // import { mapState } from 'vuex';
+import MarkAPI from "@/service/TeacherMarkPaper";
 
 export default {
   name: "scoreCenter",
   created() {
     // this.getQues();
     // console.log(this.examId);
+    this.getStudent();
   },
   computed: {
     // ...mapState(['examId']),
@@ -87,6 +89,7 @@ export default {
       List: [],
       score: [],
       id: "",
+      stuName: "",
       quesList: [],
       index: 0,
       timer: "",
@@ -96,14 +99,13 @@ export default {
     clearTimeout(this.timer);
   },
   methods: {
-    async getQues() {
-      try {
-        const res = await this.$axios.post(`${this.HOST}/exam/getDiscussion`, {
-          exam_id: this.examId,
-        });
-        const info = res.data.data;
-        console.log(info);
-        if (res.data.code === 200) {
+    getStudent() {
+      MarkAPI.requestStudentAnswer({
+        exam_id:this.$route.query.id
+      })
+      .then((res) => {
+        console.log(res);
+          const info = res.data;
           this.stuAnswer = info.stuInfo;
           const ques = info.question;
           ques.forEach((item) => {
@@ -122,29 +124,16 @@ export default {
               active: false,
             });
           });
-        } else {
-          this.$message({
-            message: res.data.message,
-            type: "error",
-            offset: 70,
-          });
-          this.timer = setTimeout(() => {
-            this.$router.go(-1);
-          }, 2000);
-        }
-      } catch (err) {
+      })
+      .catch((err) => {
         console.log(err);
-        this.$message({
-          message: "系统异常",
-          type: "error",
-          offset: 70,
-        });
-      }
+      })
     },
     showStuQues(index) {
       this.score = [];
       this.index = index;
       this.id = this.stuAnswer[index].id;
+      this.stuName = this.stuAnswer[index].name;
       const stuques = this.stuAnswer[index].question;
       for (let i = 0; i < this.List.length; i += 1) {
         this.List[i].stuanswer = stuques[i].answer;
@@ -157,24 +146,19 @@ export default {
     GoBack() {
       this.$router.go(-1);
     },
-    async ScoreWhole() {
-      try {
-        const res = await this.$axios.post(`${this.HOST}/exam/completeJudge`, {
-          exam_id: this.examId,
-        });
-        const info = res.data;
-        if (info.code === 200) {
-          this.$router.push("/ExamInfo");
-        } else {
-          this.$message({
-            message: info.message,
-            type: "error",
-            offset: 70,
-          });
+    markAll() {
+      MarkAPI.markAllPaper({
+        exam_id:this.$route.query.id
+      })
+      .then((res) =>{
+        console.log(res);
+        if (res.code === 200) {
+          this.$router.push("/index-teacher");
         }
-      } catch (err) {
+      })
+      .catch((err) =>{
         console.log(err);
-      }
+      })
     },
     SubmitScore() {
       let isOk = false;
@@ -201,7 +185,7 @@ export default {
         });
       }
     },
-    async HandIn() {
+    HandIn() {
       const scoreList = [];
       for (let i = 0; i < this.score.length; i += 1) {
         const score = parseInt(this.score[i], 10);
@@ -211,34 +195,24 @@ export default {
         });
         console.log(scoreList);
       }
-      try {
-        const res = await this.$axios.post(`${this.HOST}/exam/handInScore`, {
-          exam_id: this.examId,
-          stu_id: this.id,
-          scoreList,
-        });
-        const info = res.data;
-        if (info.code === 200) {
+      MarkAPI.markPaper({
+        exam_id: this.$route.query.id,
+        stu_id: this.id,
+        scoreList,
+      })
+      .then((res) => {
+        if (res.code === 200) {
           this.$message({
             type: "success",
             message: "提交成功",
             offset: 70,
           });
-          this.stuList[this.index].active = true;
-        } else {
-          this.$message({
-            message: info.message,
-            type: "error",
-            offset: 70,
-          });
         }
-      } catch (err) {
-        this.$message({
-          message: "系统异常",
-          type: "error",
-          offset: 70,
-        });
-      }
+        this.stuList[this.index].active = true;
+      })
+      .catch((err) => {
+        console.log(err);
+      })
     },
   },
 };
@@ -249,6 +223,14 @@ export default {
 #markPaper {
   width: 100%;
   height: 100%;
+  .head {
+    color: @primaryText;
+    p {
+      font-size: 12px;
+      color: @dangerColor;
+      cursor: pointer;
+    }
+  }
   .center {
     margin: 30px 0;
   }
@@ -280,6 +262,8 @@ export default {
         font-weight: bold;
         width: 100px;
         bottom: 0;
+        line-height: 25px;
+        margin-top: 2px;
       }
       .answer {
         font-weight: normal;
@@ -292,6 +276,9 @@ export default {
       display: flex;
       flex-direction: row;
       margin: 15px;
+    }
+    .std {
+      color: @dangerColor;
     }
     .ing {
       color: @warningColor;

@@ -67,5 +67,5 @@ export default {
       data,
     });
     return res.data;
-  },
+  }
 };

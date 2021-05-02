@@ -96,7 +96,7 @@ export default {
           path: `/teacher-set-question?id=${this.selectExamid}`,
         });
       } else if (exam.exam_status === "未评分") {
-        this.statusAction = "阅卷";
+        this.$router.push({path:`/teacher-mark-paper?id=${this.selectExamid}`});
       } else if (exam.exam_status === "已评分") {
         this.statusAction = "查看成绩";
       }
