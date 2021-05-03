@@ -201,7 +201,7 @@ export default {
     getQuestion() {
       // 请求试题的接口
       QuestionAPI.requestQuestionList({
-        train_id: 12,
+        train_id: this.$route.query.id,
       })
         .then((res) => {
           // console.log(res.data);

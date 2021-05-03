@@ -24,20 +24,35 @@
       <el-divider></el-divider>
       <div class="ques_row flex-row">
         <label>知识点:</label>
-        <el-input placeholder="请输入知识点" v-model="tag" clearable></el-input>
+        <el-select v-model="tag">
+          <el-option
+            v-for="item in chapters"
+            :key="item.chapter_id"
+            :value="item.chapter_id"
+            :label="item.chapter_name"
+          ></el-option>
+        </el-select>
       </div>
       <div class="ques_row flex-row">
         <label>分值:</label>
         <el-input placeholder="请输入分值" v-model="score" clearable></el-input>
       </div>
       <div class="ques_row flex-row">
-        <label>难易程度:</label>
-        <el-select v-model="level">
+        <label>难度:</label>
+        <el-slider v-model="level" show-input> </el-slider>
+      </div>
+      <div class="ques_row flex-row">
+        <label>区分度:</label>
+        <el-slider v-model="diff" show-input> </el-slider>
+      </div>
+      <div class="ques_row flex-row">
+        <label>重要性:</label>
+        <el-select v-model="importance">
           <el-option
-            v-for="item in levels"
+            v-for="item in importances"
             :key="item.index"
-            :label="item.value"
             :value="item.index"
+            :label="item.value"
           ></el-option>
         </el-select>
       </div>
@@ -50,6 +65,8 @@
 </template>
 
 <script>
+import ExamAPI from "@/service/TeacherExam";
+import { mapState } from "vuex";
 export default {
   watch: {
     score(val) {
@@ -66,13 +83,19 @@ export default {
       }
     },
   },
+  computed: {
+    ...mapState(["userInfo", "subId"]),
+  },
   data() {
     return {
       question: "",
       correctAnswer: "",
       tag: "",
-      score: "",
+      score: 0,
       level: 0,
+      diff: 0,
+      importance: 0,
+      chapters: [],
       options: [
         {
           value: "正确",
@@ -81,25 +104,61 @@ export default {
           value: "错误",
         },
       ],
-      levels: [
+      importances: [
         {
-          value: "简单",
+          value: "了解",
           index: 0,
         },
         {
-          value: "中等",
+          value: "理解",
           index: 1,
         },
         {
-          value: "困难",
+          value: "掌握",
           index: 2,
         },
       ],
     };
   },
+  created() {
+    this.getPoint();
+  },
   methods: {
     s(item) {
       console.log(item);
+    },
+    submitAdd() {
+      ExamAPI.teacherSaveQuestion({
+        content: this.question,
+        exam_id: this.examId,
+        question_id: this.questionId,
+        answer: this.correctAnswer,
+        hard: this.level / 100,
+        diff: this.diff / 100,
+        importance: this.importance,
+        score: this.score,
+        kind: 1,
+        user_id: this.userInfo.user_id,
+      })
+        .then((res) => {
+          console.log(res);
+          this.questionId = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getPoint() {
+      ExamAPI.getKonwPonit({
+        sub_id: this.subId,
+      })
+        .then((res) => {
+          console.log(res);
+          this.chapters = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     deleteQues() {
       this.question = "";
@@ -141,6 +200,9 @@ export default {
       }
       .clear {
         background-color: @warningColor;
+      }
+      /deep/ .el-slider {
+        width: 50%;
       }
     }
   }

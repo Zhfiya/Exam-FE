@@ -1,5 +1,5 @@
 <template>
-  <div id="courseCard" class="flex-col">
+  <div id="courseCard" class="flex-col" v-if="update">
     <div class="flex-row title">
       <img src="@/assets/Teacher/indexCourse.png" alt="" />
       <p>{{ examDetail.exam_name }}</p>
@@ -48,7 +48,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button type="info" plain @click="dialog = false">取 消</el-button>
-        <el-button type="primary" plain>确 定</el-button>
+        <el-button type="primary" @click="changeTime" plain>确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -56,14 +56,19 @@
 
 <script>
 import ExamAPI from "@/service/TeacherExam";
+import { mapState } from "vuex";
 export default {
   props: {
     examDetail: {
       required: true,
     },
   },
+  computed: {
+    ...mapState(["subId"]),
+  },
   data() {
     return {
+      update: true,
       statusAction: "",
       dialog: false,
       selectExamTime: "0",
@@ -103,6 +108,33 @@ export default {
         this.statusAction = "查看成绩";
       }
     },
+    changeTime() {
+      const time = this.examDetail.begin_time;
+      const begin_time = new Date(time).getTime() / 1000;
+      ExamAPI.teacherUpdateExam({
+        user_id: "201801",
+        sub_id: this.subId,
+        exam_name: this.examDetail.exam_name,
+        begin_time,
+        last_time: this.newTime,
+      })
+        .then((res) => {
+          console.log(res);
+          if (res.code === 200) {
+            this.dialog = false;
+            this.update = false;
+            // 在组件移除后，重新渲染组件
+            // this.$nextTick可实现在DOM 状态更新后，执行传入的方法。
+            this.$nextTick(() => {
+              this.update = true;
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 终止考试
     confirmEnd() {
       this.$confirm("此操作将终止考试, 是否继续?", "提示", {
         confirmButtonText: "确定",

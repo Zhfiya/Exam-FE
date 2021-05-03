@@ -5,12 +5,12 @@
       <el-button>添加课程</el-button>
     </div>
     <div class="course_box">
-      <el-collapse v-model="activeName" accordion>
+      <el-collapse v-model="activeName" @change="getId" accordion>
         <el-collapse-item
           v-for="item in courseList"
           :key="item.sub_id"
           :title="item.sub_name"
-          :name="item.sub_name"
+          :name="item.sub_id"
           class="flex-col"
         >
           <div class="flex-row detail_row">
@@ -88,6 +88,9 @@ export default {
   },
   methods: {
     ...mapMutations(["GET_SUBID"]),
+    getId(val) {
+      this.GET_SUBID(val);
+    },
     // 获取课程
     getCourse() {
       CourseAPI.teacherGetCourse({
@@ -142,8 +145,7 @@ export default {
           last_time: this.addLastTime,
         })
         .then((res) => {
-          console.log(res);
-          this.GET_SUBID(this.selectCourseId);
+          // console.log(res);
           this.$router.push({ path: `/teacher-set-question?id=${res.data}` });
         })
         .catch((err) => {

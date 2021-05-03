@@ -11,7 +11,7 @@
       <div class="train_row" v-for="item in trainList" :key="item.train_id">
         <div class="train_inline">
           <p>{{ item.train_name }}</p>
-          -----------------
+          --------------------
           <p class="time">时长：{{ item.train_time }}</p>
         </div>
       </div>
@@ -160,10 +160,14 @@ export default {
     overflow-y: scroll;
     .train_row {
       background-color: @white;
-      margin: 10px;
+      margin: 20px;
       padding: 20px;
       cursor: pointer;
       // .train_in
+      color: @regularText;
+      p.time {
+        font-size: 12px;
+      }
     }
   }
   /deep/ .el-dialog {

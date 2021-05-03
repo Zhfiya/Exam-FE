@@ -56,7 +56,14 @@
       <el-divider></el-divider>
       <div class="ques_row flex-row">
         <label>知识点:</label>
-        <el-input placeholder="请输入知识点" v-model="tag" clearable></el-input>
+        <el-select v-model="tag">
+          <el-option
+            v-for="item in chapters"
+            :key="item.chapter_id"
+            :value="item.chapter_id"
+            :label="item.chapter_name"
+          ></el-option>
+        </el-select>
       </div>
       <div class="ques_row flex-row">
         <label>分值:</label>
@@ -127,6 +134,7 @@ export default {
       level: 0,
       diff: 0,
       importance: 0,
+      chapters: [],
       options: [
         {
           value: "A",
@@ -189,6 +197,7 @@ export default {
       })
         .then((res) => {
           console.log(res);
+          this.chapters = res.data;
         })
         .catch((err) => {
           console.log(err);
