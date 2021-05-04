@@ -37,7 +37,7 @@ export default {
   methods: {
     ...mapMutations(["GET_USERINFO"]),
     login() {
-      const role = 0;
+      const role = 1;
       let role1 = "";
       if (role === 0) {
         this.$router.push("/index-teacher");

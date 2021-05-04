@@ -61,7 +61,6 @@ export default {
 @import url("../../style/common.less");
 #personalCenter {
   color: @primaryText;
-  background-color: @lighterBackground;
   padding: 20px;
   height: 620px;
   label {

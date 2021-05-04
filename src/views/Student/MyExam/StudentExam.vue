@@ -1,8 +1,13 @@
 <template>
   <div id="studentExam" class="flex-col">
-    <label class="res_time">
-      剩余时间： {{ hour }}时{{ min }}:{{ second }}
-    </label>
+    <div class="flex-row">
+      <label class="res_time">
+        剩余时间： {{ hour }}时{{ min }}:{{ second }}
+      </label>
+      <el-button @click="submitEnd" class="sub" type="danger" plain
+        >交卷</el-button
+      >
+    </div>
     <div class="box_main flex-row">
       <!-- 左边的标题list -->
       <el-card class="menu_card">
@@ -164,6 +169,8 @@ export default {
     init() {
       this.ws = new WebSocket(this.path);
       this.ws.onopen = () => {
+        this.sendMessage("exam");
+        console.log(this.ws.readyState);
         if (this.ws.readyState === 1) {
           this.sendMessage(999, "");
         }
@@ -186,6 +193,7 @@ export default {
     // 接收数据,并处理间隔时间
     getMessage() {
       this.ws.onmessage = (data) => {
+        console.log(data);
         const da = data.data.split(",");
         const lastTime = da[2].replace("}", "").split("=");
         if (!isNaN(lastTime[1])) {
@@ -336,6 +344,36 @@ export default {
       this.AllAnswer.push(...this.programCount);
       // console.log(this.AllAnswer);
     },
+    submitEnd() {
+      this.$confirm("确认交卷?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.endExam();
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+    endExam() {
+      QuestionAPI.endExam({
+        exam_id: this.$route.query.id,
+        user_id: this.userInfo.user_id,
+      }).then((res) => {
+        if (res.code === 200) {
+          this.$message({
+            type: "success",
+            message: "交卷成功",
+          });
+          this.$router.push("/student-exam-list");
+        }
+      });
+    },
     changeTime() {
       this.timer = setInterval(() => {
         this.resTime--;
@@ -367,6 +405,11 @@ export default {
     position: fixed;
     font-weight: bold;
     color: @primaryText;
+  }
+  .sub {
+    position: fixed;
+    margin-left: 180px;
+    padding: 5px 10px;
   }
   .box_main {
     margin-top: 40px;

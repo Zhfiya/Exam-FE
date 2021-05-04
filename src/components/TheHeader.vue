@@ -28,13 +28,13 @@
       <p class="name" v-if="role === 'teacher'">考试平台-教师端</p>
       <p class="name" v-else>考试平台</p>
       <div class="itemBox">
-        <p
+        <!-- <p
           class="item"
           @click="goTo('/student-exam-list')"
           v-if="role === 'student'"
         >
           我的考试
-        </p>
+        </p> -->
         <p class="item" @click="goTo('/test-index')" v-if="role === 'student'">
           练习中心
         </p>

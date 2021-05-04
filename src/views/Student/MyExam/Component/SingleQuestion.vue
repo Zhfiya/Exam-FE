@@ -55,7 +55,7 @@ export default {
   },
   created() {
     // 取出localStorage里的答案
-    console.log(this.singleQuestionList);
+    // console.log(this.singleQuestionList);
     if (localStorage.getExpire("singleAnswer")) {
       this.answer = localStorage.getExpire("singleAnswer").answer;
     }
