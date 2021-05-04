@@ -213,30 +213,37 @@ export default {
         user_id: this.userInfo.user_id,
       })
         .then((res) => {
-          // console.log(res.data);
-          // 存放各类题目
-          this.singleList = res.data.Single;
-          this.singleList.forEach((el) => {
-            const oplist = el.options.split(";");
-            el.options = oplist;
-          });
-          this.judgeList = res.data.Judge;
-          this.discussionList = res.data.Discussion;
-          this.programList = res.data.Program;
-          // 存放各类题目的question_id
-          this.singleList.forEach((el) => {
-            this.selectCount.push({ question_id: el.question_id });
-          });
-          this.judgeList.forEach((el) => {
-            this.judgeCount.push({ question_id: el.question_id });
-          });
-          this.discussionList.forEach((el) => {
-            this.discussionCount.push({ question_id: el.question_id });
-          });
-          this.programList.forEach((el) => {
-            this.programCount.push({ question_id: el.question_id });
-          });
-          this.getLocalStorage();
+          if (res.code === 200) {
+            // 存放各类题目
+            this.singleList = res.data.Single;
+            this.singleList.forEach((el) => {
+              const oplist = el.options.split(";");
+              el.options = oplist;
+            });
+            this.judgeList = res.data.Judge;
+            this.discussionList = res.data.Discussion;
+            this.programList = res.data.Program;
+            // 存放各类题目的question_id
+            this.singleList.forEach((el) => {
+              this.selectCount.push({ question_id: el.question_id });
+            });
+            this.judgeList.forEach((el) => {
+              this.judgeCount.push({ question_id: el.question_id });
+            });
+            this.discussionList.forEach((el) => {
+              this.discussionCount.push({ question_id: el.question_id });
+            });
+            this.programList.forEach((el) => {
+              this.programCount.push({ question_id: el.question_id });
+            });
+            this.getLocalStorage();
+          } else {
+            this.$message({
+              type: "error",
+              message: res.message,
+            });
+            this.$router.go(-1);
+          }
         })
         .catch((err) => {
           console.log(err);

@@ -12,7 +12,7 @@
         <div class="train_inline">
           <p>{{ item.train_name }}</p>
           --------------------
-          <p class="time">时长：{{ item.train_time }}</p>
+          <p class="time">时长：{{ item.train_time }} min</p>
         </div>
       </div>
     </div>
@@ -122,7 +122,7 @@ export default {
           console.log(res);
           this.trainList = res.data;
           this.trainList.forEach((el) => {
-            el.train_time = el.train_time / 3600;
+            el.train_time = el.train_time / 60;
           });
         })
         .catch((err) => {
