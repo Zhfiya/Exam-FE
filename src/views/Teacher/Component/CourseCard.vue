@@ -64,7 +64,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["subId"]),
+    ...mapState(["subId", "userInfo"]),
   },
   data() {
     return {
@@ -110,7 +110,7 @@ export default {
     },
     changeTime() {
       ExamAPI.teacherUpdateExamTime({
-        user_id: "201801",
+        user_id: this.userInfo.user_id,
         exam_id: this.examDetail.exam_id,
         last_time: this.newTime,
       })
@@ -154,12 +154,19 @@ export default {
     },
     endExam() {
       ExamAPI.teacherEndExam({
-        user_id: "201801",
+        user_id: this.userInfo.user_id,
         exam_id: this.selectExamid,
       })
         .then((res) => {
-          console.log(res);
-          this.dialog = false;
+          if (res.code === 200) {
+            this.dialog = false;
+            this.update = false;
+            // 在组件移除后，重新渲染组件
+            // this.$nextTick可实现在DOM 状态更新后，执行传入的方法。
+            this.$nextTick(() => {
+              this.update = true;
+            });
+          }
         })
         .catch((err) => {
           console.log(err);

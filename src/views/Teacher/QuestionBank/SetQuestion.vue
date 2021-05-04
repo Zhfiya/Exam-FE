@@ -67,7 +67,7 @@
       </el-tab-pane>
     </el-tabs>
     <div class="flex-row">
-      <el-button type="danger">结束出题</el-button>
+      <el-button type="danger" @click="goTo">结束出题</el-button>
     </div>
   </div>
 </template>
@@ -141,6 +141,11 @@ export default {
   },
   created() {
     this.examId = this.$route.query.id;
+  },
+  methods: {
+    goTo() {
+      this.$router.push("/index-teacher");
+    },
   },
 };
 </script>

@@ -56,6 +56,15 @@
           autosize
         ></el-input>
       </div>
+      <div class="ques_row flex-row">
+        <label>提示:</label>
+        <el-input
+          placeholder="请输入提示"
+          v-model="tip"
+          type="textarea"
+          autosize
+        ></el-input>
+      </div>
       <el-divider></el-divider>
       <div class="ques_row flex-row">
         <label>知识点:</label>
@@ -128,6 +137,9 @@ export default {
       answerOutput: [""],
       answerInput: [""],
       correctAnswer: "",
+      questionId: null,
+      tip: "",
+      testCase: [],
       tag: "",
       score: 0,
       level: 0,
@@ -159,17 +171,36 @@ export default {
       this.answerInput.push("");
       this.answerOutput.push("");
     },
+    handleTestCase() {
+      this.testCase = [];
+      const len = this.answerOutput.length;
+      for (let i = 0; i < len; i += 1) {
+        this.testCase.push({
+          input: this.answerInput[i],
+          output: this.answerOutput[i],
+        });
+      }
+    },
     submitAdd() {
+      this.handleTestCase();
+      let type = 3;
+      if (this.answerInput) {
+        type = 3;
+      } else {
+        type = 4;
+      }
       ExamAPI.teacherSaveQuestion({
         content: this.question,
         exam_id: this.examId,
         question_id: this.questionId,
+        tip: this.tip,
         answer: this.correctAnswer,
         hard: this.level / 100,
         diff: this.diff / 100,
         importance: this.importance,
         score: this.score,
-        kind: 1,
+        test_case: this.testCase,
+        kind: type,
         user_id: this.userInfo.user_id,
       })
         .then((res) => {
@@ -191,7 +222,6 @@ export default {
         sub_id: this.subId,
       })
         .then((res) => {
-          console.log(res);
           this.chapters = res.data;
         })
         .catch((err) => {

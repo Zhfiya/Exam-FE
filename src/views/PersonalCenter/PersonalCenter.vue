@@ -1,7 +1,7 @@
 <template>
   <div id="personalCenter">
     <div class="flex-col">
-      <label>Hi！{{ this.userName }}</label>
+      <label>Hi！{{ this.userInfo.user_name }}</label>
       <el-divider content-position="left">基本信息</el-divider>
       <div class="basic_info flex-col">
         <div class="basic_row flex-row">
@@ -13,6 +13,14 @@
           <p>{{ userInfo.user_id }}</p>
         </div>
         <div class="flex-row basic_row">
+          <p class="before">电话：</p>
+          <p>{{ userInfo.user_phone }}</p>
+        </div>
+        <div class="flex-row basic_row">
+          <p class="before">邮箱：</p>
+          <p>{{ userInfo.email }}</p>
+        </div>
+        <div class="flex-row basic_row">
           <p class="before">角色：</p>
           <p>{{ userRole }}</p>
         </div>
@@ -21,12 +29,7 @@
       <div class="safe_info">
         <div class="flex-row safe_row">
           <p class="before">修改密码</p>
-          <el-button type="success" plain>验证</el-button>
-        </div>
-        <div class="flex-row safe_row">
-          <p class="before">修改邮箱</p>
-          <p>{{ userInfo.email }}</p>
-          <el-button type="success" plain>验证</el-button>
+          <el-button type="success" plain>修改</el-button>
         </div>
       </div>
     </div>

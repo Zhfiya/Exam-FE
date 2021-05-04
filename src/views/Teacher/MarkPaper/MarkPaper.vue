@@ -107,26 +107,33 @@ export default {
         exam_id: this.$route.query.id,
       })
         .then((res) => {
-          console.log(res);
-          const info = res.data;
-          this.stuAnswer = info.stuInfo;
-          const ques = info.question;
-          ques.forEach((item) => {
-            this.List.push({
-              ques: item.question,
-              answer: item.answer,
-              score: item.score,
-              stuanswer: "",
+          if (res.code === 200) {
+            const info = res.data;
+            this.stuAnswer = info.stuInfo;
+            const ques = info.question;
+            ques.forEach((item) => {
+              this.List.push({
+                ques: item.question,
+                answer: item.answer,
+                score: item.score,
+                stuanswer: "",
+              });
+              this.quesList.push(item.question_id);
             });
-            this.quesList.push(item.question_id);
-          });
-          this.stuAnswer.forEach((item) => {
-            this.stuList.push({
-              id: item.id,
-              name: item.name,
-              active: false,
+            this.stuAnswer.forEach((item) => {
+              this.stuList.push({
+                id: item.id,
+                name: item.name,
+                active: false,
+              });
             });
-          });
+          } else {
+            this.$message({
+              type: "error",
+              message: res.message,
+            });
+            this.$router.go(-1);
+          }
         })
         .catch((err) => {
           console.log(err);

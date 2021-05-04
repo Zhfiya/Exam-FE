@@ -2,7 +2,7 @@
   <div id="indexTeacher">
     <div class="top_row flex-row">
       <label class="title">我管理的</label>
-      <el-button>添加课程</el-button>
+      <!-- <el-button>添加课程</el-button> -->
     </div>
     <div class="course_box">
       <el-collapse v-model="activeName" @change="getId" accordion>

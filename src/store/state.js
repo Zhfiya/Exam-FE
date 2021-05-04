@@ -6,6 +6,7 @@ export default {
     role: "",
     user_name: "fine",
     email: "Paranoid_ZH@163.com",
+    user_phone: 13348943243,
     subId: 0,
   },
 };
