@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/views/Home.vue";
 import UserLogin from "@/views/Login/UserLogin";
 import PersonalCenter from "@/views/PersonalCenter/PersonalCenter";
 import IndexStudent from "../views/Student/IndexStudent.vue";
@@ -28,17 +27,12 @@ createModules(matches, routerList);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
     path: "/index-student",
     name: "IndexStudent",
     component: IndexStudent,
   },
   {
-    path: "/login",
+    path: "/",
     name: "UserLogin",
     component: UserLogin,
   },

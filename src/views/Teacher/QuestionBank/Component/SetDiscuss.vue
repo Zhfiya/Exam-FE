@@ -55,7 +55,7 @@
         </el-select>
       </div>
       <div class="ques_row">
-        <el-button @click="s(item)">提交</el-button>
+        <el-button @click="submitAdd(item)">提交</el-button>
         <el-button @click="deleteQues()" class="clear">清空</el-button>
       </div>
     </div>
@@ -115,9 +115,6 @@ export default {
     this.getPoint();
   },
   methods: {
-    s(item) {
-      console.log(item);
-    },
     submitAdd() {
       ExamAPI.teacherSaveQuestion({
         content: this.question,
@@ -132,8 +129,13 @@ export default {
         user_id: this.userInfo.user_id,
       })
         .then((res) => {
-          console.log(res);
-          this.questionId = res.data;
+          if (res.code === 200) {
+            this.questionId = res.data;
+            this.$message({
+              type: "success",
+              message: "提交成功！",
+            });
+          }
         })
         .catch((err) => {
           console.log(err);

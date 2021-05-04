@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <el-container>
+    <el-container class="flex-col">
       <el-header class="header" v-if="userInfo.role">
         <the-header></the-header>
       </el-header>

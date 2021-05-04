@@ -109,13 +109,9 @@ export default {
       }
     },
     changeTime() {
-      const time = this.examDetail.begin_time;
-      const begin_time = new Date(time).getTime() / 1000;
-      ExamAPI.teacherUpdateExam({
+      ExamAPI.teacherUpdateExamTime({
         user_id: "201801",
-        sub_id: this.subId,
-        exam_name: this.examDetail.exam_name,
-        begin_time,
+        exam_id: this.examDetail.exam_id,
         last_time: this.newTime,
       })
         .then((res) => {
@@ -127,6 +123,11 @@ export default {
             // this.$nextTick可实现在DOM 状态更新后，执行传入的方法。
             this.$nextTick(() => {
               this.update = true;
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: res.message,
             });
           }
         })

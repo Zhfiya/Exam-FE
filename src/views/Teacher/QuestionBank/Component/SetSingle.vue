@@ -184,8 +184,13 @@ export default {
         user_id: this.userInfo.user_id,
       })
         .then((res) => {
-          console.log(res);
-          this.questionId = res.data;
+          if (res.code === 200) {
+            this.questionId = res.data;
+            this.$message({
+              type: "success",
+              message: "提交成功！",
+            });
+          }
         })
         .catch((err) => {
           console.log(err);

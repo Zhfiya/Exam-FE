@@ -25,7 +25,7 @@ module.exports = {
   }, //网关配置
   chainWebpack: (config) => {
     config.plugin("html").tap((args) => {
-      args[0].title = "学生成绩检测平台"; //设置标题
+      args[0].title = "学生考试平台"; //设置标题
       return args;
     });
     config.resolve.alias.set("@", resolve("./src")); //设置路径别名

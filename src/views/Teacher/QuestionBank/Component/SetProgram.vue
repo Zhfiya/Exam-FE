@@ -92,7 +92,7 @@
         </el-select>
       </div>
       <div class="button_row">
-        <el-button @click="s(item)">提交</el-button>
+        <el-button @click="submitAdd()">提交</el-button>
         <el-button @click="deleteQues()" class="clear">清空</el-button>
       </div>
     </div>
@@ -159,6 +159,33 @@ export default {
       this.answerInput.push("");
       this.answerOutput.push("");
     },
+    submitAdd() {
+      ExamAPI.teacherSaveQuestion({
+        content: this.question,
+        exam_id: this.examId,
+        question_id: this.questionId,
+        answer: this.correctAnswer,
+        hard: this.level / 100,
+        diff: this.diff / 100,
+        importance: this.importance,
+        score: this.score,
+        kind: 1,
+        user_id: this.userInfo.user_id,
+      })
+        .then((res) => {
+          if (res.code === 200) {
+            this.questionId = res.data;
+            this.$message({
+              type: "success",
+              message: "提交成功！",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 获取知识点
     getPoint() {
       ExamAPI.getKonwPonit({
         sub_id: this.subId,

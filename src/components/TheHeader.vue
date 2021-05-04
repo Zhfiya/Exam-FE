@@ -38,9 +38,10 @@
         <p class="item" @click="goTo('/test-index')" v-if="role === 'student'">
           练习中心
         </p>
-        <p class="item" v-if="role === 'teacher'">题库</p>
-        <p class="item" v-if="role === 'teacher'">阅卷中心</p>
+        <!-- <p class="item" v-if="role === 'teacher'">题库</p> -->
+        <!-- <p class="item" v-if="role === 'teacher'">阅卷中心</p> -->
         <p class="item" @click="goTo('/personal-center')">个人中心</p>
+        <p class="item">退出登录</p>
       </div>
     </div>
   </div>
@@ -79,7 +80,7 @@ export default {
   justify-content: space-between;
   .logoBox {
     height: 100%;
-    width: 80px;
+    width: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
