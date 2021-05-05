@@ -20,7 +20,9 @@
       <div class="info_row flex-row">
         <p>状态：</p>
         <p>{{ item.exam_status }}</p>
-        <p v-if="item.exam_status === '已评分'" class="score">{{ item.score }}分</p>
+        <p v-if="item.exam_status === '已评分'" class="score">
+          {{ item.score }}分
+        </p>
       </div>
     </div>
     <el-dialog

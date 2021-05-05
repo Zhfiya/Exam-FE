@@ -74,7 +74,7 @@ export default {
       selectExamTime: "0",
       selectExamid: 0,
       newTime: "",
-      lastTime:'',
+      lastTime: "",
     };
   },
   created() {

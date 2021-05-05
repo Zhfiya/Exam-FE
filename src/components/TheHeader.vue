@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState,mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import LoginAPI from "@/service/Login";
 export default {
   data() {
@@ -60,22 +60,22 @@ export default {
     this.role = this.userInfo.role;
   },
   methods: {
-    ...mapMutations(['GET_USERINFO']),
+    ...mapMutations(["GET_USERINFO"]),
     goTo(path) {
       this.$router.push(path);
     },
     logOut() {
       LoginAPI.requestLogOut()
-      .then((res) => {
-        if(res.code === 200) {
-          this.$router.push('/');
-          this.GET_USERINFO({});
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
+        .then((res) => {
+          if (res.code === 200) {
+            this.$router.push("/");
+            this.GET_USERINFO({});
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   computed: {
     ...mapState(["userInfo"]),

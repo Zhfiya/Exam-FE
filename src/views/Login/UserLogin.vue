@@ -38,33 +38,35 @@ export default {
   methods: {
     ...mapMutations(["GET_USERINFO"]),
     login() {
+      // 18582189771 学生
+      // 17728881096 老师
       LoginAPI.requestLogin({
         telephone: this.id,
         password: this.pwd,
       })
-      .then((res) => {
-        if (res.code === 200) {
-          let role = '';
-          if (res.data.authority === 1) {
-            this.$router.push("/index-teacher");
-            role = "teacher";
-          } else {
-            this.$router.push("/student-exam-list");
-            role = "student";
+        .then((res) => {
+          if (res.code === 200) {
+            let role = "";
+            if (res.data.authority === 1) {
+              this.$router.push("/index-teacher");
+              role = "teacher";
+            } else {
+              this.$router.push("/student-exam-list");
+              role = "student";
+            }
+            this.GET_USERINFO({
+              user_id: res.data.id,
+              role,
+              user_name: res.data.user_name,
+              user_phone: this.id,
+              email: res.data.email,
+            });
           }
-          this.GET_USERINFO({
-            user_id: res.data.id,
-            role,
-            user_name: res.data.user_name,
-            user_phone:this.id,
-            email:res.data.email,
-          });
-        }
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       // const role = 1;
       // let role1 = "";
 

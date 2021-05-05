@@ -43,7 +43,9 @@
           <!-- </el-input> -->
         </div>
         <div class="button_row">
-          <button @click="submit(item)"><i class="el-icon-edit"></i>submit</button>
+          <button @click="submit(item)">
+            <i class="el-icon-edit"></i>submit
+          </button>
         </div>
       </div>
     </el-card>
@@ -123,7 +125,7 @@
 </template>
 
 <script>
-import JudgeAPI from "@/service/StudentExam"
+import JudgeAPI from "@/service/StudentExam";
 import { mapState } from "vuex";
 import { codemirror } from "vue-codemirror";
 
@@ -145,11 +147,11 @@ export default {
       require: false,
     },
     examId: {
-      require:true,
-    }
+      require: true,
+    },
   },
   computed: {
-    ...mapState(['userInfo']),
+    ...mapState(["userInfo"]),
   },
   components: {
     codemirror,
@@ -187,7 +189,7 @@ export default {
       statusList: [],
       testList: [],
       type: "",
-      info:{},
+      info: {},
       Options: {
         tabSize: 4,
         mode: "python",

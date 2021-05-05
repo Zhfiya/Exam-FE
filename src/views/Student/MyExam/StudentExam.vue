@@ -143,7 +143,7 @@ export default {
       // isShowD: false,
       // isShowP: false,
       // answerList: [],
-      resTime: 7800,
+      resTime: 7200,
       curStartTime: "2020-03-17 20:30:00",
       hour: "00",
       min: "00",
@@ -157,6 +157,11 @@ export default {
         this.sendMessage(99999, val);
       }
     },
+    resTime(val) {
+      if(val === 0) {
+        this.endExam();
+      }
+    }
   },
   created() {
     this.init();
@@ -172,8 +177,8 @@ export default {
     init() {
       this.ws = new WebSocket(this.path);
       this.ws.onopen = () => {
+        console.log(this.ws);
         this.sendMessage("exam");
-        console.log(this.ws.readyState);
         if (this.ws.readyState === 1) {
           this.sendMessage(999, "");
         }
@@ -196,7 +201,7 @@ export default {
     // 接收数据,并处理间隔时间
     getMessage() {
       this.ws.onmessage = (data) => {
-        console.log(data);
+        // console.log(data);
         const da = data.data.split(",");
         const lastTime = da[2].replace("}", "").split("=");
         if (!isNaN(lastTime[1])) {

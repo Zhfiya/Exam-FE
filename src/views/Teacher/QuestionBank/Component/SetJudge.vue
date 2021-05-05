@@ -57,7 +57,7 @@
         </el-select>
       </div>
       <div class="ques_row">
-        <el-button @click="s(item)">提交</el-button>
+        <el-button @click="submitAdd">提交</el-button>
         <el-button @click="deleteQues()" class="clear">清空</el-button>
       </div>
     </div>
@@ -68,6 +68,11 @@
 import ExamAPI from "@/service/TeacherExam";
 import { mapState } from "vuex";
 export default {
+  props: {
+    examId: {
+      require: true,
+    },
+  },
   watch: {
     score(val) {
       if (!val) {

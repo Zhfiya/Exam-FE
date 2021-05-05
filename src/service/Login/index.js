@@ -3,7 +3,7 @@ import { NetworkRequest } from "../api";
 export default {
   /**
    * 登录--fine
-   * @param {Object} 
+   * @param {Object}
    *
    * @returns {Promise<Object>}
    */
@@ -18,11 +18,11 @@ export default {
   },
   /**
    * 退出登录--fine
-   * @param {Object} 
+   * @param {Object}
    *
    * @returns {Promise<Object>}
    */
-   async requestLogOut() {
+  async requestLogOut() {
     const res = await NetworkRequest({
       url: "/login/logout", //接口
       method: "post", //请求method
