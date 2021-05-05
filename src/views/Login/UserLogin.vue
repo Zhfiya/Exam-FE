@@ -23,6 +23,7 @@
 
 <script>
 import { mapMutations } from "vuex";
+// import LoginAPI from "@/service/Login";
 export default {
   data() {
     return {
@@ -37,7 +38,17 @@ export default {
   methods: {
     ...mapMutations(["GET_USERINFO"]),
     login() {
-      const role = 1;
+      // LoginAPI.requestLogin({
+      //   keyword: this.id,
+      //   password: this.pwd,
+      // })
+      // .then((res) => {
+      //   console.log(res);
+      // })
+      // .catch((err) => {
+      //   console.log(err);
+      // })
+      const role = 0;
       let role1 = "";
       if (role === 0) {
         this.$router.push("/index-teacher");

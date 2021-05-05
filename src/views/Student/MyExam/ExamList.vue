@@ -57,23 +57,25 @@ export default {
       })
         .then((res) => {
           // console.log(res.data);
-          res.data.forEach((element) => {
-            element.begin_time = this.getTime(element.begin_time);
-            if (element.exam_status === 0) {
-              element.exam_status = "未开始";
-              this.examNone.push(element);
-            } else if (element.exam_status === 1) {
-              element.exam_status = "正在进行";
-              this.examIng.push(element);
-            } else if (element.exam_status === 2) {
-              element.exam_status = "未评分";
-              this.examEnd.push(element);
-            } else if (element.exam_status === 3) {
-              element.exam_status = "已评分";
-              this.examEnd.push(element);
-            }
-            this.examAll.push(element);
-          });
+          if (res.data) {
+            res.data.forEach((element) => {
+              element.begin_time = this.getTime(element.begin_time);
+              if (element.exam_status === 0) {
+                element.exam_status = "未开始";
+                this.examNone.push(element);
+              } else if (element.exam_status === 1) {
+                element.exam_status = "正在进行";
+                this.examIng.push(element);
+              } else if (element.exam_status === 2) {
+                element.exam_status = "未评分";
+                this.examEnd.push(element);
+              } else if (element.exam_status === 3) {
+                element.exam_status = "已评分";
+                this.examEnd.push(element);
+              }
+              this.examAll.push(element);
+            });
+          }
         })
         .catch((err) => {
           console.log(err);
