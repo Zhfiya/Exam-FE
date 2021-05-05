@@ -84,7 +84,7 @@ export default {
     };
   },
   created() {
-    console.log(this.examInfo);
+    // console.log(this.examInfo);
   },
   methods: {
     // 考试详情

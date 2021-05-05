@@ -129,9 +129,6 @@ export default {
     this.getPoint();
   },
   methods: {
-    s(item) {
-      console.log(item);
-    },
     submitAdd() {
       ExamAPI.teacherSaveQuestion({
         content: this.question,
@@ -163,7 +160,7 @@ export default {
         sub_id: this.subId,
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.chapters = res.data;
         })
         .catch((err) => {

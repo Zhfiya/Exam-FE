@@ -56,6 +56,7 @@ Vue.use(codemirror);
 Vue.config.productionTip = false;
 Vue.prototype.$message = Message;
 Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$alert = MessageBox.alert;
 
 // 定义localStorage储存的方法
 Storage.prototype.setExpire = (key, value, expire) => {

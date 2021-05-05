@@ -24,6 +24,7 @@
         type="info"
         plain
         @click="getAction(examDetail)"
+        v-if="examDetail.exam_status !== '已评分'"
         >{{ statusAction }}</el-button
       >
     </div>
@@ -87,7 +88,7 @@ export default {
     } else if (this.examDetail.exam_status === "未评分") {
       this.statusAction = "阅卷";
     } else if (this.examDetail.exam_status === "已评分") {
-      this.statusAction = "查看成绩";
+      this.statusAction = null;
     }
   },
   methods: {

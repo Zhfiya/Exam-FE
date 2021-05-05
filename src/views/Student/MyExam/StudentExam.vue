@@ -158,10 +158,10 @@ export default {
       }
     },
     resTime(val) {
-      if(val === 0) {
+      if (val === 0) {
         this.endExam();
       }
-    }
+    },
   },
   created() {
     this.init();
@@ -177,7 +177,7 @@ export default {
     init() {
       this.ws = new WebSocket(this.path);
       this.ws.onopen = () => {
-        console.log(this.ws);
+        // console.log(this.ws);
         this.sendMessage("exam");
         if (this.ws.readyState === 1) {
           this.sendMessage(999, "");

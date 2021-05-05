@@ -203,7 +203,6 @@ export default {
           question_id: this.quesList[i],
           score,
         });
-        console.log(scoreList);
       }
       MarkAPI.markPaper({
         exam_id: this.$route.query.id,

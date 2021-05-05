@@ -62,7 +62,6 @@ export default {
               email: res.data.email,
             });
           }
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);

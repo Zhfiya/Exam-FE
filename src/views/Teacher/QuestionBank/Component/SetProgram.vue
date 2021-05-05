@@ -169,7 +169,6 @@ export default {
   },
   created() {
     this.getPoint();
-    console.log(this.examId);
   },
   methods: {
     Addstd() {

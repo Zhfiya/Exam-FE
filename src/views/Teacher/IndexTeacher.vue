@@ -131,11 +131,11 @@ export default {
     addExam(id) {
       this.addDialog = true;
       this.selectCourseId = id;
-      console.log(id);
+      // console.log(id);
     },
     // 添加考试
     submitAdd() {
-      console.log(this.addBeginTime);
+      // console.log(this.addBeginTime);
       addExamAPI
         .teacherAddExam({
           user_id: "201801",
