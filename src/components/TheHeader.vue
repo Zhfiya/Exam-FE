@@ -41,14 +41,15 @@
         <!-- <p class="item" v-if="role === 'teacher'">题库</p> -->
         <!-- <p class="item" v-if="role === 'teacher'">阅卷中心</p> -->
         <p class="item" @click="goTo('/personal-center')">个人中心</p>
-        <p class="item">退出登录</p>
+        <p class="item" @click="logOut">退出登录</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
+import LoginAPI from "@/service/Login";
 export default {
   data() {
     return {
@@ -59,9 +60,22 @@ export default {
     this.role = this.userInfo.role;
   },
   methods: {
+    ...mapMutations(['GET_USERINFO']),
     goTo(path) {
       this.$router.push(path);
     },
+    logOut() {
+      LoginAPI.requestLogOut()
+      .then((res) => {
+        if(res.code === 200) {
+          this.$router.push('/');
+          this.GET_USERINFO({});
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
   },
   computed: {
     ...mapState(["userInfo"]),

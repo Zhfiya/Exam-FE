@@ -65,6 +65,7 @@
               class="question_item"
               v-for="(item, index) in programCount"
               :key="index"
+              :class="{ active: programCount[index].answer }"
             >
               {{ index + 1 }}
             </div>
@@ -91,6 +92,7 @@
         <program-question
           :programQuestionList="programList"
           :examId="this.$route.query.id"
+          @getInfo="getAnswerList"
           v-if="questionType === 'program'"
         ></program-question>
       </div>
@@ -344,6 +346,13 @@ export default {
           break;
         case "program":
           len = this.programCount.length;
+          for (let i = 0; i < len; i += 1) {
+            answerList.push({
+              question_id: this.discussionCount[i].question_id,
+              answer: data.answer[i],
+            });
+          }
+          this.programCount = answerList;
           break;
       }
       this.AllAnswer.push(...this.selectCount);

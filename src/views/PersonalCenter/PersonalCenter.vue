@@ -25,13 +25,13 @@
           <p>{{ userRole }}</p>
         </div>
       </div>
-      <el-divider content-position="left">安全信息</el-divider>
+      <!-- <el-divider content-position="left">安全信息</el-divider>
       <div class="safe_info">
         <div class="flex-row safe_row">
           <p class="before">修改密码</p>
           <el-button @click="update" type="success" plain>修改</el-button>
         </div>
-      </div>
+      </div> -->
     </div>
     <el-dialog title="修改密码" :visible.sync="updateDialog" width="30%" center>
       <div class="flex-col">

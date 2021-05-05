@@ -23,7 +23,7 @@
 
 <script>
 import { mapMutations } from "vuex";
-// import LoginAPI from "@/service/Login";
+import LoginAPI from "@/service/Login";
 export default {
   data() {
     return {
@@ -38,31 +38,37 @@ export default {
   methods: {
     ...mapMutations(["GET_USERINFO"]),
     login() {
-      // LoginAPI.requestLogin({
-      //   keyword: this.id,
-      //   password: this.pwd,
-      // })
-      // .then((res) => {
-      //   console.log(res);
-      // })
-      // .catch((err) => {
-      //   console.log(err);
-      // })
-      const role = 1;
-      let role1 = "";
-      if (role === 0) {
-        this.$router.push("/index-teacher");
-        role1 = "teacher";
-      } else {
-        this.$router.push("/student-exam-list");
-        role1 = "student";
-      }
-      this.isShow = true;
-      this.GET_USERINFO({
-        user_id: this.id,
-        role: role1,
-        user_name: "fine",
-      });
+      LoginAPI.requestLogin({
+        telephone: this.id,
+        password: this.pwd,
+      })
+      .then((res) => {
+        if (res.code === 200) {
+          let role = '';
+          if (res.data.authority === 1) {
+            this.$router.push("/index-teacher");
+            role = "teacher";
+          } else {
+            this.$router.push("/student-exam-list");
+            role = "student";
+          }
+          this.GET_USERINFO({
+            user_id: res.data.id,
+            role,
+            user_name: res.data.user_name,
+            user_phone:this.id,
+            email:res.data.email,
+          });
+        }
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      // const role = 1;
+      // let role1 = "";
+
+      // this.isShow = true;
     },
     handleKeyDown(e) {
       let key = null;

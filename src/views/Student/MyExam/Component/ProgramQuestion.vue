@@ -187,6 +187,7 @@ export default {
       statusList: [],
       testList: [],
       type: "",
+      info:{},
       Options: {
         tabSize: 4,
         mode: "python",
@@ -210,17 +211,13 @@ export default {
         this.statusList = [];
       }
     },
-    // code(val) {
-    //   this.info = {
-    //     question_id: this.ProgramQ.question_id,
-    //     answer: val,
-    //     score: this.score,
-    //     type: this.type,
-    //     num: this.index + 1,
-    //   };
-    //   // console.log(this.info);
-    //   this.$emit("func", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
-    // },
+    code(val) {
+      this.info = {
+        answer: val,
+      };
+      localStorage.setExpire("programAnswer", this.info, 10000000); // 将答案存到localStorage里，定义过期时间，这里的10000000大概是四个小时
+      this.$emit("getInfo", this.info); // 学生答题时，实时向父组件传值（父组件统一提交所有答案）
+    },
   },
   methods: {
     Question() {
