@@ -90,6 +90,7 @@
         ></discussion-question>
         <program-question
           :programQuestionList="programList"
+          :examId="this.$route.query.id"
           v-if="questionType === 'program'"
         ></program-question>
       </div>

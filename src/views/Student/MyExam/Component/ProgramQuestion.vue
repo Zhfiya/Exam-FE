@@ -43,7 +43,7 @@
           <!-- </el-input> -->
         </div>
         <div class="button_row">
-          <button @click="submit()"><i class="el-icon-edit"></i>submit</button>
+          <button @click="submit(item)"><i class="el-icon-edit"></i>submit</button>
         </div>
       </div>
     </el-card>
@@ -123,7 +123,8 @@
 </template>
 
 <script>
-import JudgeAPI from "@/service/StudentExam";
+import JudgeAPI from "@/service/StudentExam"
+import { mapState } from "vuex";
 import { codemirror } from "vue-codemirror";
 
 require("codemirror/addon/edit/matchbrackets.js");
@@ -143,6 +144,12 @@ export default {
     programQuestionList: {
       require: false,
     },
+    examId: {
+      require:true,
+    }
+  },
+  computed: {
+    ...mapState(['userInfo']),
   },
   components: {
     codemirror,
@@ -193,7 +200,7 @@ export default {
   },
   created() {
     this.Question();
-    console.log(this.programQuestionList);
+    // console.log(this.programQuestionList);
   },
   watch: {
     dialogVisible(val) {
@@ -236,13 +243,13 @@ export default {
       const seconds = date.getSeconds();
       return `${year}/${month}/${day}/  ${hours}:${minutes}:${seconds}`;
     },
-    async submit() {
+    async submit(item) {
       // 运行编程题
       // console.log(this.code);
       JudgeAPI.judgeProgram({
-        exam_id: 1,
-        user_id: 2018110214,
-        question_id: 270,
+        exam_id: this.examId,
+        user_id: this.userInfo.user_id,
+        question_id: item.question_id,
         language: this.language,
         code: this.code,
       })
@@ -283,7 +290,7 @@ export default {
             // 报错提醒
             this.$message({
               type: "error",
-              message: res.data.message,
+              message: res.message,
               offset: 70,
             });
           }
