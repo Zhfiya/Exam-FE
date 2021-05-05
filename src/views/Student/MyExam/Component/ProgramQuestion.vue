@@ -14,9 +14,9 @@
         <div class="single_row">
           <div class="example flex-col">
             <p>样例输入</p>
-            <label class="example_real">{{ stdinput }}</label>
+            <label class="example_real">{{ item.input }}</label>
             <p>样例输出</p>
-            <label class="example_real">{{ stdoutput }}</label>
+            <label class="example_real">{{ item.output }}</label>
           </div>
         </div>
         <div class="single_row">

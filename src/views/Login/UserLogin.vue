@@ -48,7 +48,7 @@ export default {
       // .catch((err) => {
       //   console.log(err);
       // })
-      const role = 0;
+      const role = 1;
       let role1 = "";
       if (role === 0) {
         this.$router.push("/index-teacher");

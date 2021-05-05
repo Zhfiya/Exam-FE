@@ -113,6 +113,11 @@ import ExamAPI from "@/service/TeacherExam";
 import { mapState } from "vuex";
 
 export default {
+  props: {
+    examId: {
+      required: true,
+    },
+  },
   watch: {
     score(val) {
       if (!val) {
@@ -164,6 +169,7 @@ export default {
   },
   created() {
     this.getPoint();
+    console.log(this.examId);
   },
   methods: {
     Addstd() {

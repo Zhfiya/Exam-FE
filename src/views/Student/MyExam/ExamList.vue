@@ -42,7 +42,6 @@ export default {
     ...mapState(["userInfo"]),
   },
   created() {
-    console.log(this.userInfo);
     this.getExamList();
   },
   methods: {

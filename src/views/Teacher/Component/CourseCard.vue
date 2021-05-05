@@ -12,7 +12,7 @@
     <div class="flex-row">
       <img src="@/assets/Teacher/indexTime.png" alt="" />
       <p>考试时长：</p>
-      <p>{{ examDetail.last_time }} min</p>
+      <p>{{ lastTime }} min</p>
     </div>
     <div class="flex-row status_row">
       <img src="@/assets/Teacher/indexStatus.png" alt="" />
@@ -74,10 +74,12 @@ export default {
       selectExamTime: "0",
       selectExamid: 0,
       newTime: "",
+      lastTime:'',
     };
   },
   created() {
     // console.log(this.examDetail);
+    this.lastTime = this.examDetail.last_time;
     if (this.examDetail.exam_status === "正在进行") {
       this.statusAction = "修改时间";
     } else if (this.examDetail.exam_status === "未开始") {
@@ -115,9 +117,9 @@ export default {
         last_time: this.newTime,
       })
         .then((res) => {
-          console.log(res);
-          if (res.code === 200) {
+          if (res.code == 200) {
             this.dialog = false;
+            this.lastTime = this.newTime;
             this.update = false;
             // 在组件移除后，重新渲染组件
             // this.$nextTick可实现在DOM 状态更新后，执行传入的方法。

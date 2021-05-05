@@ -20,7 +20,7 @@
       <div class="info_row flex-row">
         <p>状态：</p>
         <p>{{ item.exam_status }}</p>
-        <p v-if="item.score" class="score">{{ item.score }}分</p>
+        <p v-if="item.exam_status === '已评分'" class="score">{{ item.score }}分</p>
       </div>
     </div>
     <el-dialog
@@ -82,7 +82,7 @@ export default {
     };
   },
   created() {
-    // console.log(this.examInfo);
+    console.log(this.examInfo);
   },
   methods: {
     // 考试详情
@@ -92,7 +92,7 @@ export default {
       if (item.exam_status == "正在进行") {
         this.statusAction = "进入考试";
       } else if (item.exam_status === "已评分") {
-        this.statusAction = "查看成绩";
+        this.statusAction = null;
       }
     },
     Action(item) {
