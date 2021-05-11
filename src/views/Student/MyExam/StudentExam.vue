@@ -153,6 +153,7 @@ export default {
   },
   watch: {
     AllAnswer(val) {
+      console.log("上传", this.ws.readyState);
       if (this.ws.readyState === 1) {
         this.sendMessage(99999, val);
       }
@@ -175,10 +176,20 @@ export default {
   methods: {
     // websocket
     init() {
-      this.ws = new WebSocket(this.path);
+      const data = {
+        user_id: this.userInfo.user_id,
+        type: "exam",
+        exam_id: this.$route.query.id,
+      };
+      this.ws = new WebSocket(
+        `ws://121.36.18.182:7788/api/websocket/${JSON.stringify(data)}`
+      );
+      console.log(
+        `ws://121.36.18.182:7788/api/websocket/${JSON.stringify(data)}`
+      );
       this.ws.onopen = () => {
-        // console.log(this.ws);
-        this.sendMessage("exam");
+        console.log("连接", this.ws.readyState);
+        // this.sendMessage("exam");
         if (this.ws.readyState === 1) {
           this.sendMessage(999, "");
         }
@@ -206,6 +217,7 @@ export default {
         const lastTime = da[2].replace("}", "").split("=");
         if (!isNaN(lastTime[1])) {
           this.resTime = parseInt(lastTime[1]);
+          console.log(this.resTime);
         }
       };
     },

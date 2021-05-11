@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import echarts from "echarts";
 import { codemirror } from "vue-codemirror";
 import "codemirror/lib/codemirror.css";
 
@@ -57,6 +58,8 @@ Vue.config.productionTip = false;
 Vue.prototype.$message = Message;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$alert = MessageBox.alert;
+
+Vue.prototype.$echarts = echarts;
 
 // 定义localStorage储存的方法
 Storage.prototype.setExpire = (key, value, expire) => {
