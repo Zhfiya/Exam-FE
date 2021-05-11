@@ -162,7 +162,14 @@ export default {
   methods: {
     // websocket
     init() {
-      this.ws = new WebSocket(this.path);
+      const data = {
+        user_id: this.userInfo.user_id,
+        type: "train",
+        exam_id: this.$route.query.id,
+      };
+      this.ws = new WebSocket(
+        `ws://121.36.18.182:7788/api/websocket/${JSON.stringify(data)}`
+      );
       this.ws.onopen = () => {
         if (this.ws.readyState === 1) {
           this.sendMessage(999, "");
