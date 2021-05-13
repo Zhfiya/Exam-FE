@@ -126,6 +126,7 @@
 
 <script>
 import JudgeAPI from "@/service/StudentExam";
+import TrainJudgeAPI from "@/service/StudentTest";
 import { mapState } from "vuex";
 import { codemirror } from "vue-codemirror";
 
@@ -148,6 +149,9 @@ export default {
     },
     examId: {
       require: true,
+    },
+    examType: {
+      require: false,
     },
   },
   computed: {
@@ -245,58 +249,113 @@ export default {
     async submit(item) {
       // 运行编程题
       // console.log(this.code);
-      JudgeAPI.judgeProgram({
-        exam_id: this.examId,
-        user_id: this.userInfo.user_id,
-        question_id: item.question_id,
-        language: this.language,
-        code: this.code,
-      })
-        .then((res) => {
-          if (res.code === 200) {
-            const info = res.data;
-            // console.log(info.compile_error);
-            if (info.compile_error === true) {
+      if (this.examType === "train") {
+        TrainJudgeAPI.judgeProgram({
+          exam_id: this.examId,
+          user_id: this.userInfo.user_id,
+          question_id: item.question_id,
+          language: this.language,
+          code: this.code,
+        })
+          .then((res) => {
+            if (res.code === 200) {
+              const info = res.data;
+              // console.log(info.compile_error);
+              if (info.compile_error === true) {
+                this.$message({
+                  type: "error",
+                  message: "编译错误",
+                  offset: 70,
+                });
+              } else {
+                // 编译成功后的数据渲染
+                this.score = info.score;
+                // console.log(info);
+                this.statusList.push({
+                  date: this.getTime(),
+                  status: info.status,
+                  score: this.score,
+                  language: info.language,
+                  username: info.username,
+                  num: info.num,
+                }); // 状态数据渲染
+                const testCase = info.test_case_res; // 测试样例数据渲染
+                testCase.forEach((item) => {
+                  this.testList.push({
+                    number: item.case_num,
+                    result: item.result,
+                    runtime: item.run_time,
+                    memory: item.memory,
+                  });
+                });
+                this.dialogVisible = true; // 渲染弹框
+              }
+            } else {
+              // 报错提醒
               this.$message({
                 type: "error",
-                message: "编译错误",
+                message: res.message,
                 offset: 70,
               });
-            } else {
-              // 编译成功后的数据渲染
-              this.score = info.score;
-              // console.log(info);
-              this.statusList.push({
-                date: this.getTime(),
-                status: info.status,
-                score: this.score,
-                language: info.language,
-                username: info.username,
-                num: info.num,
-              }); // 状态数据渲染
-              const testCase = info.test_case_res; // 测试样例数据渲染
-              testCase.forEach((item) => {
-                this.testList.push({
-                  number: item.case_num,
-                  result: item.result,
-                  runtime: item.run_time,
-                  memory: item.memory,
-                });
-              });
-              this.dialogVisible = true; // 渲染弹框
             }
-          } else {
-            // 报错提醒
-            this.$message({
-              type: "error",
-              message: res.message,
-              offset: 70,
-            });
-          }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        JudgeAPI.judgeProgram({
+          exam_id: this.examId,
+          user_id: this.userInfo.user_id,
+          question_id: item.question_id,
+          language: this.language,
+          code: this.code,
         })
-        .catch((err) => {
-          console.log(err);
-        });
+          .then((res) => {
+            if (res.code === 200) {
+              const info = res.data;
+              // console.log(info.compile_error);
+              if (info.compile_error === true) {
+                this.$message({
+                  type: "error",
+                  message: "编译错误",
+                  offset: 70,
+                });
+              } else {
+                // 编译成功后的数据渲染
+                this.score = info.score;
+                // console.log(info);
+                this.statusList.push({
+                  date: this.getTime(),
+                  status: info.status,
+                  score: this.score,
+                  language: info.language,
+                  username: info.username,
+                  num: info.num,
+                }); // 状态数据渲染
+                const testCase = info.test_case_res; // 测试样例数据渲染
+                testCase.forEach((item) => {
+                  this.testList.push({
+                    number: item.case_num,
+                    result: item.result,
+                    runtime: item.run_time,
+                    memory: item.memory,
+                  });
+                });
+                this.dialogVisible = true; // 渲染弹框
+              }
+            } else {
+              // 报错提醒
+              this.$message({
+                type: "error",
+                message: res.message,
+                offset: 70,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
   },
 };

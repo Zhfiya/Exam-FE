@@ -42,9 +42,9 @@ export default {
    *
    * @returns {Promise<Object>}
    */
-   async endExam(data) {
+  async endExam(data) {
     const res = await NetworkRequest({
-      url: "/exam/handInTrain", //接口
+      url: "/train/handInTrain", //接口
       method: "post", //请求method
       // postHeaderType: "application/x-www-form-urlencoded", //请求头格式
       data,
@@ -77,6 +77,21 @@ export default {
   async requestStuTrain(data) {
     const res = await NetworkRequest({
       url: "/train/getAllTrain", //接口
+      method: "post", //请求method
+      // postHeaderType: "application/x-www-form-urlencoded", //请求头格式
+      data,
+    });
+    return res.data;
+  },
+  /**
+   * 编程题判题--fine
+   * @param {Object} exam_id:考试id，user_id:用户id,code:代码,language:语言,question_id:题目id
+   *
+   * @returns {Promise<Object>} single:[],judge:[],discussion:[],program:[]
+   */
+  async judgeProgram(data) {
+    const res = await NetworkRequest({
+      url: "/train/judgeProgram", //接口
       method: "post", //请求method
       // postHeaderType: "application/x-www-form-urlencoded", //请求头格式
       data,

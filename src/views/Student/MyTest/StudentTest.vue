@@ -4,8 +4,8 @@
       剩余时间： {{ hour }}时{{ min }}:{{ second }}
     </label>
     <el-button @click="submitEnd" class="sub" type="danger" plain
-        >交卷</el-button
-      >
+      >交卷</el-button
+    >
     <div class="box_main flex-row">
       <!-- 左边的标题list -->
       <el-card class="menu_card">
@@ -89,6 +89,7 @@
         <program-question
           :programQuestionList="programList"
           v-if="questionType === 'program'"
+          :examType="type"
         ></program-question>
       </div>
       <!-- <div class="button_card">
@@ -133,6 +134,7 @@ export default {
       discussionList: [],
       programList: [],
       AllAnswer: [],
+      type: "train",
       // isShowS: false,
       // isShowJ: false,
       // isShowD: false,
@@ -213,7 +215,7 @@ export default {
       // 请求试题的接口
       QuestionAPI.requestQuestionList({
         train_id: this.$route.query.id,
-        user_id:this.userInfo.user_id,
+        user_id: this.userInfo.user_id,
       })
         .then((res) => {
           // console.log(res.data);
