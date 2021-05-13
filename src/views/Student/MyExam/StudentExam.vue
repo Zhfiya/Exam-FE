@@ -184,14 +184,11 @@ export default {
       this.ws = new WebSocket(
         `ws://121.36.18.182:7788/api/websocket/${JSON.stringify(data)}`
       );
-      console.log(
-        `ws://121.36.18.182:7788/api/websocket/${JSON.stringify(data)}`
-      );
       this.ws.onopen = () => {
         console.log("连接", this.ws.readyState);
         // this.sendMessage("exam");
         if (this.ws.readyState === 1) {
-          this.sendMessage(999, "");
+          this.sendMessage(9999, "");
         }
       };
       this.ws.onerror = (error) => {

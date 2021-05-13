@@ -85,7 +85,7 @@ export default {
       subId: null,
       subjects: [],
       score: 100,
-      kind: [0, 0, 0, 0],
+      kind: [0, 0, 0, 0, 0],
       diff: 0,
       lastTime: "120",
       trainId: 0,
@@ -104,7 +104,7 @@ export default {
         sub_id: this.subId,
         score: this.score,
         diff: this.diff / 100,
-        train_time: this.lastTime,
+        last_time: this.lastTime,
       })
         .then((res) => {
           this.trainId = res.data;
@@ -122,7 +122,7 @@ export default {
           console.log(res);
           this.trainList = res.data;
           this.trainList.forEach((el) => {
-            el.train_time = el.train_time / 60;
+            el.train_time = el.last_time / 60;
           });
         })
         .catch((err) => {
