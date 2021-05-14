@@ -51,7 +51,7 @@ export default {
               this.$router.push("/index-teacher");
               role = "teacher";
             } else {
-              this.$router.push("/student-exam-list");
+              this.$router.push("/index-student");
               role = "student";
             }
             this.GET_USERINFO({
