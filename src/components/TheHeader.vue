@@ -13,7 +13,7 @@
         <img
           src="@/assets/icon.png"
           class="logo"
-          @click="goTo('/student-exam-list')"
+          @click="goTo('/index-student')"
           v-if="role === 'student'"
         />
         <img
@@ -28,15 +28,22 @@
       <p class="name" v-if="role === 'teacher'">考试平台-教师端</p>
       <p class="name" v-else>考试平台</p>
       <div class="itemBox">
-        <!-- <p
+        <p
           class="item"
           @click="goTo('/student-exam-list')"
           v-if="role === 'student'"
         >
           我的考试
-        </p> -->
+        </p>
         <p class="item" @click="goTo('/test-index')" v-if="role === 'student'">
           练习中心
+        </p>
+        <p
+          class="item"
+          @click="goTo('/course-center')"
+          v-if="role === 'teacher'"
+        >
+          课程中心
         </p>
         <!-- <p class="item" v-if="role === 'teacher'">题库</p> -->
         <!-- <p class="item" v-if="role === 'teacher'">阅卷中心</p> -->

@@ -8,6 +8,7 @@ import StudentTest from "@/views/Student/MyTest/StudentTest";
 import StudentExamList from "@/views/Student/MyExam/ExamList";
 import TestIndex from "@/views/Student/MyTest/TestIndex";
 import IndexTeacher from "@/views/Teacher/IndexTeacher";
+import CourseCenter from "@/views/Teacher/CourseCenter";
 import SetQuestion from "@/views/Teacher/QuestionBank/SetQuestion";
 import MarkPaper from "@/views/Teacher/MarkPaper/MarkPaper";
 
@@ -65,6 +66,11 @@ const routes = [
     path: "/index-teacher",
     name: "IndexTeacher",
     component: IndexTeacher,
+  },
+  {
+    path: "/course-center",
+    name: "CourseCenter",
+    component: CourseCenter,
   },
   {
     path: "/teacher-set-question",

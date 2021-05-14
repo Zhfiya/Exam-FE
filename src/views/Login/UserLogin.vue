@@ -61,6 +61,11 @@ export default {
               user_phone: this.id,
               email: res.data.email,
             });
+          } else {
+            this.$message({
+              type: "error",
+              message: res.message,
+            });
           }
         })
         .catch((err) => {
