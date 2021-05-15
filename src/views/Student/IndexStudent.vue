@@ -1,16 +1,19 @@
 <template>
   <div id="indexStudent">
     <el-tabs v-model="activeName">
-      <el-tab-pane label="科目详情" name="sub">
-        <div class="flex-col row">
-          <img src="@/assets/Student/site-sub.png" alt="" />
-          <img src="@/assets/Student/site-sub-two.png" alt="" />
-          <img src="@/assets/Student/site-sub-three.png" alt="" />
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="考试详情" name="exam">
-        <img src="@/assets/Teacher/site-sub.png" alt="" />
-      </el-tab-pane>
+      <el-tab-pane label="科目概览" name="sub">
+          <div class="flex-col row">
+            <img src="@/assets/Student/site-sub-three.png" alt="" />
+            <img src="@/assets/Teacher/hard-right.png" alt="" />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="试卷概览" name="exam">
+          <div class="flex-col row">
+            <img src="@/assets/Student/site-sub.png" alt="" />
+            <img src="@/assets/Student/site-sub-two.png" alt="" />
+            <img src="@/assets/Student/site-sub-three.png" alt="" />
+          </div>
+        </el-tab-pane>
     </el-tabs>
   </div>
 </template>
